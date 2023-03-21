@@ -6,6 +6,5 @@ In the program maliciousPickle.py there is a creation of a normal pickle file in
 
 
 The best programs:
-
 receiver-all.py
 sender-all.py 
