@@ -5,6 +5,4 @@ In the program Pickle_Arbitrary_Code_Execution.py there is a display of informat
 In the program maliciousPickle.py there is a creation of a normal pickle file into which data was pushed and if we execute the following commands: cat payload.pkl, hexyl payload.pkl we can see the data that was pushed
 
 
-The best programs:
-receiver-all.py
-sender-all.py 
+**The best programs: receiver-all.py && sender-all.py 
