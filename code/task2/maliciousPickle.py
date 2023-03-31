@@ -8,7 +8,8 @@ import pickle
 # https://www.cadosecurity.com/linux-attack-techniques-dynamic-linker-hijacking-with-ld-preload/
 # https://www.cybertriage.com/blog/training/how-to-detect-running-malware-intro-to-incident-response-triage-part-7/
 
-BAD_LIBRARY={'/etc/hosts', '/bin/sh','/etc/passwd','/etc/pam.conf','/proc'}
+# https://www.beyondtrust.com/blog/entry/important-linux-files-protect
+BAD_LIBRARY={'/etc/hosts', '/bin/sh','/etc/passwd','/etc/pam.conf','/proc','/etc/shadow','/etc/profile', '~/.bash_profile', '~/.bash_login', '~/.profile. /home/user/.bashrc', '/etc/bash.bashrc', '/etc/profile.d/','/etc/system.d','/etc/rc.*','/etc/init.*.','/etc/resolv.conf','/etc/gshadow','/etc/pam.d','/bin','/sbin'}
 # This technique is often called DLL injection on Windows.
 # With DLL injection, the attacker creates a malicious library with the same name and API as the good one.
 # The program loads the malicious library and it, in turn, loads the good one and it will call the good one as needed to do the operations that the original program wants.
@@ -36,7 +37,7 @@ BAD_IMPORT={'module', 'names','level',}
 data = "real data"
 pickle_bin = pickle.dumps(data)
 p = Pickled.load(pickle_bin)
-p.insert_python_exec("with open('/etc/hosts','r') as r: print(r.readlines())")
+p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
 p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
 p.insert_python_exec("import module print('malicious')")
 p.insert_python_exec("ls -l")
@@ -75,7 +76,7 @@ def scann(scan):
 
     input=scan
     for call in BAD_CALLS:
-            if (input.find(call) == 0):
+            if (input.find(call) > -1):
                 print(call)
                 result_calls[call] += 1
                 result_total += 1
@@ -179,11 +180,6 @@ with open('payload.pkl', 'rb') as f:
     os.system("fickling --check-safety {}".format('payload.pkl'))
     print("------------------------trace-----------------------------")
     os.system("fickling --trace {}".format('payload.pkl'))
-
-    # check_safety(Pickled.load(pickle_bin))
-    # print(shorten)
-
-
 
     # cat payload.pkl
 
