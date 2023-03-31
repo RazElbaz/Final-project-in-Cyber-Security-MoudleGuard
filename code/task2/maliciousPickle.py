@@ -77,7 +77,6 @@ def scann(scan):
     input=scan
     for call in BAD_CALLS:
             if (input.find(call) > -1):
-                print(call)
                 result_calls[call] += 1
                 result_total += 1
                 result_output += "\n----- found lib call (" + call + ") -----\n"
@@ -106,21 +105,18 @@ def scann(scan):
 
     for impo in BAD_IMPORT:
             if (input.find(impo) > -1):
-                print(impo)
                 result_import[impo] += 1
                 result_total += 1
                 result_output += "\n----- found malicious import (" + impo + ") -----\n"
                 result_output += input
     for cm in BAD_CMD:
             if (input.find(cm) > -1):
-                print(impo)
                 result_cmd[impo] += 1
                 result_total += 1
                 result_output += "\n----- found malicious cmd command (" + cm + ") -----\n"
                 result_output += input
     for mod in BAD_MODULE:
             if (input.find(mod) > -1):
-                print(mod)
                 result_moudle[mod] += 1
                 result_total += 1
                 result_output += "\n----- found malicious module (" + mod + ") -----\n"
@@ -178,7 +174,7 @@ with open('payload.pkl', 'rb') as f:
     # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
     # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
     os.system("fickling --check-safety {}".format('payload.pkl'))
-    print("------------------------trace-----------------------------")
+    print("-------------------------trace-----------------------------------")
     os.system("fickling --trace {}".format('payload.pkl'))
 
     # cat payload.pkl
