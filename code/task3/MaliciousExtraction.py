@@ -36,19 +36,19 @@ BAD_CMD={'-nop', '-noni','invoke-expression' ,'iex' , '.downloadstring' ,'downlo
 BAD_MODULE={"__init__", "__new__", "__reduce__","__builtin__", "os", "subprocess", "sys", "builtins", "socket"}
 BAD_IMPORT={'module', 'names','level',}
 
-# # Create a malicious pickle
-# data = "real data"
-# pickle_bin = pickle.dumps(data)
-# p = Pickled.load(pickle_bin)
-# p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
-# p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
-# p.insert_python_exec("import module print('malicious')")
-# p.insert_python_exec("ls -l")
-#
-# with open('unsafe.pkl', 'wb') as f:
-#     p.dump(f)
-# calls=[]
-# non_setstate_calls=[]
+# Create a malicious pickle
+data = "real data"
+pickle_bin = pickle.dumps(data)
+p = Pickled.load(pickle_bin)
+p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
+p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
+p.insert_python_exec("import module print('malicious')")
+p.insert_python_exec("ls -l")
+
+with open('unsafe.pkl', 'wb') as f:
+    p.dump(f)
+calls=[]
+non_setstate_calls=[]
 
 class MySafeClass:
     def __init__(self, name):
