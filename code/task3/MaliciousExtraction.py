@@ -1,6 +1,8 @@
 import ast
 import json
 import os
+import re
+import subprocess
 import sys
 from fickling.pickle import Pickled
 import pickle
@@ -34,18 +36,19 @@ BAD_CMD={'-nop', '-noni','invoke-expression' ,'iex' , '.downloadstring' ,'downlo
 BAD_MODULE={"__init__", "__new__", "__reduce__","__builtin__", "os", "subprocess", "sys", "builtins", "socket"}
 BAD_IMPORT={'module', 'names','level',}
 
-# Create a malicious pickle
-data = "real data"
-pickle_bin = pickle.dumps(data)
-p = Pickled.load(pickle_bin)
-p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
-p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
-p.insert_python_exec("import module print('malicious')")
-p.insert_python_exec("ls -l")
-with open('unsafe.pkl', 'wb') as f:
-    p.dump(f)
-calls=[]
-non_setstate_calls=[]
+# # Create a malicious pickle
+# data = "real data"
+# pickle_bin = pickle.dumps(data)
+# p = Pickled.load(pickle_bin)
+# p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
+# p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
+# p.insert_python_exec("import module print('malicious')")
+# p.insert_python_exec("ls -l")
+#
+# with open('unsafe.pkl', 'wb') as f:
+#     p.dump(f)
+# calls=[]
+# non_setstate_calls=[]
 
 class MySafeClass:
     def __init__(self, name):
@@ -56,13 +59,60 @@ class MyUnpickler(pickle.Unpickler):
         # Only allow MySafeClass to be unpickled
         if name == 'MySafeClass':
             print(name)
-            return MySafeClass
+            return 0
         else:
-            print(name)
-            malPKL(pickle.Unpickler)
-            # raise pickle.UnpicklingError("Invalid class: {}".format(name))
-def malPKL(file):
-    print("lala")
+            return 1
+
+
+def malPKL(filename):
+    with open(filename, 'rb') as f:
+        output = subprocess.check_output(['fickling', '--trace', filename])
+
+        output_str = output.decode()
+        # print(output_str)
+        # Find the start and end index of the REDUCE output
+        reduce_start = output_str.index('STOP')
+        reduce_end = output_str.index('result')
+
+        # Extract the REDUCE output as a string
+        reduce_str = output_str[reduce_start:reduce_end]
+
+        # Remove any leading/trailing whitespace
+        reduce_str = output_str.strip()
+
+        # Convert the REDUCE output to a Python object
+        # reduce_obj = eval(reduce_str)
+
+        # Split the output into separate lines
+        lines = output_str.split('\n')
+
+        # Iterate over each line and find lines that contain the variable name
+        var_lines = []
+        for line in lines:
+            if '_var' in line and  line[0:4] == '_var':
+                var_lines.append(line)
+        print(var_lines)
+
+        check=str(f.read())
+        print(check)
+
+       # Split the file contents into lines
+        var_lines = check.split("\n")
+
+        # Remove any lines containing the string "exec"
+        var_safe_lines = [line for line in var_lines if "exec" not in line]
+
+        # Join the remaining lines back into a string
+        safe_code = "\n".join(var_safe_lines)
+
+        print(safe_code)
+        # Save the sanitized pickle file
+        pickle_bin = pickle.dumps(safe_code)
+        p = Pickled.load(pickle_bin)
+       # Pickle the data and write it to a new file
+        with open('safe.pkl', 'wb') as f:
+            p.dump(f)
+
 def scann(scan):
     print("------------------------------scanning-pickle----------------------------------------")
     result_output=""
@@ -139,16 +189,6 @@ def scann(scan):
                 result_output += "\n----- found malicious module (" + mod + ") -----\n"
                 result_output += input
 
-    # if (
-    #         input.find("numpy.") != 0 and
-    #         input.find("_codecs.") != 0 and
-    #         input.find("collections.") != 0 and
-    #         input.find("torch.") != 0):
-    #         result_total += 1
-    #         result_other += 1
-    #         result_output += "\n----- found non-standard lib call -----\n"
-    #         result_output += input
-
 
     if (result_total > 0):
           for file in BAD_FILES:
@@ -175,35 +215,58 @@ def scann(scan):
     else:
           print("SCAN PASSED!")
 
-with open('unsafe.pkl', 'rb') as f:
-    # data = pickle.load(f)
-    # print(data)
-    # print(str(f.read()))
-    print("Read the active part of the code")
-    scann(str(f.read()))
-    # os.system("hexyl unsafe.pkl")
-    print("Runs Fickling *static* analysis")
-    print("-----------------------------check-safety----------------------------------------")
-    # Fickling
-    # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
-    # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
-    # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
-    # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
-    os.system("fickling --check-safety {}".format('unsafe.pkl'))
-    print("---------------------------------trace-------------------------------------------")
-    os.system("fickling --trace {}".format('unsafe.pkl'))
 
-with open('unsafe.pkl', 'rb') as f:
+filename='student_file.pkl'
+with open(filename, 'rb') as f:
     unpickler = MyUnpickler(f)
+
+filename='student_file.pkl'
+if unpickler == 1:
+    malPKL(filename)
+    with open('safe.pkl', 'rb') as f:
+        # data = pickle.load(f)
+        # print(data)
+        # print(str(f.read()))
+        print("Read the active part of the code")
+        scann(str(f.read()))
+        # os.system("hexyl unsafe.pkl")
+        print("Runs Fickling *static* analysis")
+        print("-----------------------------check-safety----------------------------------------")
+        # Fickling
+        # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
+        # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
+        # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
+        # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
+        os.system("fickling --check-safety {}".format('safe.pkl'))
+        print("---------------------------------trace-------------------------------------------")
+        os.system("fickling --trace {}".format('safe.pkl'))
     # Unpickle the data
-    data = unpickler.load()
+else:
+    with open(filename, 'rb') as f:
+        # data = pickle.load(f)
+        # print(data)
+        # print(str(f.read()))
+        print("Read the active part of the code")
+        scann(str(f.read()))
+        # os.system("hexyl unsafe.pkl")
+        print("Runs Fickling *static* analysis")
+        print("-----------------------------check-safety----------------------------------------")
+        # Fickling
+        # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
+        # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
+        # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
+        # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
+        os.system("fickling --check-safety {}".format(filename))
+        print("---------------------------------trace-------------------------------------------")
+        os.system("fickling --trace {}".format(filename))
+    # data = unpickler.load()
 
-# Serialize the data to JSON
-json_data = json.dumps({'data': data})
-
-# Write the serialized data to a file
-with open('data.json', 'w') as f:
-    f.write(json_data)
-    # cat unsafe.pkl
+# # Serialize the data to JSON
+# json_data = json.dumps({'data': data})
+#
+# # Write the serialized data to a file
+# with open('data.json', 'w') as f:
+#     f.write(json_data)
+#     # cat unsafe.pkl
 
 
