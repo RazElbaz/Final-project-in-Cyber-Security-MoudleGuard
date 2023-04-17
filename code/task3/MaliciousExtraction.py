@@ -1,4 +1,5 @@
 import ast
+import json
 import os
 import sys
 from fickling.pickle import Pickled
@@ -46,7 +47,22 @@ with open('unsafe.pkl', 'wb') as f:
 calls=[]
 non_setstate_calls=[]
 
+class MySafeClass:
+    def __init__(self, name):
+        self.name = name
 
+class MyUnpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        # Only allow MySafeClass to be unpickled
+        if name == 'MySafeClass':
+            print(name)
+            return MySafeClass
+        else:
+            print(name)
+            malPKL(pickle.Unpickler)
+            # raise pickle.UnpicklingError("Invalid class: {}".format(name))
+def malPKL(file):
+    print("lala")
 def scann(scan):
     print("------------------------------scanning-pickle----------------------------------------")
     result_output=""
@@ -123,15 +139,15 @@ def scann(scan):
                 result_output += "\n----- found malicious module (" + mod + ") -----\n"
                 result_output += input
 
-    if (
-            input.find("numpy.") != 0 and
-            input.find("_codecs.") != 0 and
-            input.find("collections.") != 0 and
-            input.find("torch.") != 0):
-            result_total += 1
-            result_other += 1
-            result_output += "\n----- found non-standard lib call -----\n"
-            result_output += input
+    # if (
+    #         input.find("numpy.") != 0 and
+    #         input.find("_codecs.") != 0 and
+    #         input.find("collections.") != 0 and
+    #         input.find("torch.") != 0):
+    #         result_total += 1
+    #         result_other += 1
+    #         result_output += "\n----- found non-standard lib call -----\n"
+    #         result_output += input
 
 
     if (result_total > 0):
@@ -153,7 +169,6 @@ def scann(scan):
           print("total: " + str(result_total))
           print("")
           print("SCAN FAILED")
-
 
           print(result_output)
           print(result_total)
@@ -178,6 +193,17 @@ with open('unsafe.pkl', 'rb') as f:
     print("---------------------------------trace-------------------------------------------")
     os.system("fickling --trace {}".format('unsafe.pkl'))
 
+with open('unsafe.pkl', 'rb') as f:
+    unpickler = MyUnpickler(f)
+    # Unpickle the data
+    data = unpickler.load()
+
+# Serialize the data to JSON
+json_data = json.dumps({'data': data})
+
+# Write the serialized data to a file
+with open('data.json', 'w') as f:
+    f.write(json_data)
     # cat unsafe.pkl
 
 
