@@ -231,24 +231,74 @@ def unpickle(filename):
         except Exception as e:
             return None  # Return None if an exception was raised
 
-filename='unsafe.pkl'
-my_object = unpickle(filename)
-if my_object is None:
-    result=1
-    print("Error occurred during unpickling")
-else:
-    result=0
-    print(f"Unpickled object: {my_object}")
 
-if result == 1:
-    # Handle error condition
-    malPKL(filename)
+if __name__ == '__main__':
+    filename='unsafe.pkl'
+    my_object = unpickle(filename)
+    if my_object is None:
+        result=1
+        print("Error occurred during unpickling")
 
-    with open('safe.pkl', 'rb') as f:
+    else:
+        result=0
+        print(f"Unpickled object: {my_object}")
+
+    if result == 1:
+        # Handle malicious data
+        print("**************************************")
+        print("Displays all malicious data....")
+        print("**************************************")
+        with open(filename, 'rb') as f:
+                # data = pickle.load(f)
+                # print(data)
+                print()
+                print("**************************************")
+                print("Read the active part of the code")
+                print("**************************************")
+                scann(str(f.read()))
+                # os.system("hexyl unsafe.pkl")
+                print("Runs Fickling *static* analysis")
+                print("-----------------------------check-safety----------------------------------------")
+                # Fickling
+                # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
+                # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
+                # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
+                # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
+                os.system("fickling --check-safety {}".format(filename))
+                print("---------------------------------trace-------------------------------------------")
+                os.system("fickling --trace {}".format(filename))
+        print("**************************************")
+        print("Now removing the malicious data....")
+        print("**************************************")
+        malPKL(filename)
+
+        with open('safe.pkl', 'rb') as f:
+                # data = pickle.load(f)
+                # print(data)
+                # print(str(f.read()))
+                print("Read the active part of the code")
+                scann(str(f.read()))
+                # os.system("hexyl unsafe.pkl")
+                print("***************************************")
+                print("Runs Fickling *static* analysis")
+                print("***************************************")
+                print("-----------------------------check-safety----------------------------------------")
+                # Fickling
+                # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
+                # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
+                # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
+                # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
+                os.system("fickling --check-safety {}".format('safe.pkl'))
+                print("---------------------------------trace-------------------------------------------")
+                os.system("fickling --trace {}".format('safe.pkl'))
+    elif (result == 0):
+        with open(filename, 'rb') as f:
             # data = pickle.load(f)
             # print(data)
             # print(str(f.read()))
+            print("**************************************")
             print("Read the active part of the code")
+            print("**************************************")
             scann(str(f.read()))
             # os.system("hexyl unsafe.pkl")
             print("Runs Fickling *static* analysis")
@@ -258,38 +308,20 @@ if result == 1:
             # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
             # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
             # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
-            os.system("fickling --check-safety {}".format('safe.pkl'))
+            os.system("fickling --check-safety {}".format(filename))
             print("---------------------------------trace-------------------------------------------")
-            os.system("fickling --trace {}".format('safe.pkl'))
-elif (result == 0):
-    with open(filename, 'rb') as f:
-        # data = pickle.load(f)
-        # print(data)
-        # print(str(f.read()))
-        print("Read the active part of the code")
-        scann(str(f.read()))
-        # os.system("hexyl unsafe.pkl")
-        print("Runs Fickling *static* analysis")
-        print("-----------------------------check-safety----------------------------------------")
-        # Fickling
-        # Fickling is a decompiler, static analyzer, and bytecode rewriter for Python pickle object serializations.
-        # Pickled Python objects are in fact bytecode that is interpreted by a stack-based virtual machine built into Python called the "Pickle Machine".
-        # Fickling can take pickled data streams and decompile them into human-readable Python code that, when executed, will deserialize to the original serialized object.
-        # The authors do not prescribe any meaning to the “F” in Fickling; it could stand for “fickle,” … or something else. Divining its meaning is a personal journey in discretion and is left as an exercise to the reader.
-        os.system("fickling --check-safety {}".format(filename))
-        print("---------------------------------trace-------------------------------------------")
-        os.system("fickling --trace {}".format(filename))
+            os.system("fickling --trace {}".format(filename))
 
 
 
-    # data = unpickler.load()
+        # data = unpickler.load()
 
-# # Serialize the data to JSON
-# json_data = json.dumps({'data': data})
-#
-# # Write the serialized data to a file
-# with open('data.json', 'w') as f:
-#     f.write(json_data)
-#     # cat unsafe.pkl
+    # # Serialize the data to JSON
+    # json_data = json.dumps({'data': data})
+    #
+    # # Write the serialized data to a file
+    # with open('data.json', 'w') as f:
+    #     f.write(json_data)
+    #     # cat unsafe.pkl
 
 
