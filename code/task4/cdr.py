@@ -46,6 +46,7 @@ def check_safety(
         return shortened_code, was_already_reported
 
     safe_lines = []
+
     with open(filename, 'rb') as f:
         code=str(f.read().decode('latin1'))
         # print("=====")
@@ -102,7 +103,7 @@ def check_safety(
 
 
     # write the safe lines to a new pickle file
-    with open('safe.pkl', 'wb') as f:
+    with open(filename, 'wb') as f:
          pickle.dump('\n'.join(safe_lines), f)
     print(safe_lines)
     if not safe_lines:
@@ -118,17 +119,17 @@ def check_safety(
     else:
         return False
 
-filename='unsafe.pkl'
-with open(filename, 'rb') as f:
-    pickled_data = f.read()
-pickled_obj = Pickled.load(pickled_data)
-print(fickling.analysis.check_safety(pickled_obj))
-check_safety(pickled_obj,filename)
-with open('safe.pkl', 'rb') as f:
-    pickled_data = f.read()
-pickled_obj = Pickled.load(pickled_data)
-# print(pickled_data.decode('latin1'))
-print(fickling.analysis.check_safety(pickled_obj))
-with open('safe.pkl', 'rb') as f:
-    pickled_data = pickle.load(f)
+# filename='unsafe.pkl'
+# with open(filename, 'rb') as f:
+#     pickled_data = f.read()
+# pickled_obj = Pickled.load(pickled_data)
+# print(fickling.analysis.check_safety(pickled_obj))
+# check_safety(pickled_obj,filename)
+# with open('safe.pkl', 'rb') as f:
+#     pickled_data = f.read()
+# pickled_obj = Pickled.load(pickled_data)
+# # print(pickled_data.decode('latin1'))
+# print(fickling.analysis.check_safety(pickled_obj))
+# with open('safe.pkl', 'rb') as f:
+#     pickled_data = pickle.load(f)
 
