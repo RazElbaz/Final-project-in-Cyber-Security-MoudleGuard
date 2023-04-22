@@ -15,8 +15,8 @@ Here are the steps I will take:
 
 6. I will run the tests and make sure they pass.
 
-7. If the tests fail, I will debug the code and fix problems.  
-8.After the tests pass, I can use the custom pickle package and cdr.py in your project.
+7. If the tests fail, I will debug the code and fix problems.
+8. After the tests pass, I can use the custom pickle package and cdr.py in your project.
 
 ♥Changing a Python core package like a pickle can be dangerous and may have unintended consequences. It's important to thoroughly test your changes and make sure they don't break any existing code.
 
