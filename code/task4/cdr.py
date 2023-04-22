@@ -118,8 +118,7 @@ def check_safety(
         return True
     else:
         return False
-#
-# filename='unsafe.pkl'
+#filename='unsafe.pkl'
 # with open(filename, 'rb') as f:
 #     pickled_data = f.read()
 #     # print(pickled_data.decode('latin1'))
@@ -133,4 +132,5 @@ def check_safety(
 # print(fickling.analysis.check_safety(pickled_obj))
 # with open('safe.pkl', 'rb') as f:
 #     pickled_data = pickle.load(f)
+#
 
