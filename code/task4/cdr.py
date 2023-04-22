@@ -53,6 +53,7 @@ def check_safety(
         # print(code)
         # print("====")
     for line in code.split('\n'):
+        # print(line)
         try:
             clean_string = line.replace('\x00', '')
             ast_node = compile(clean_string, '<string>', 'exec', ast.PyCF_ONLY_AST)
@@ -91,8 +92,7 @@ def check_safety(
                 is_safe = False
             elif ("__builtin__"in line) or ("os" in line) or ("subprocess" in line) or ("sys" in line) or ("builtins" in line) or ("socket" in line):
                 is_safe = False
-        if is_safe:
-            safe_lines.append(str(line))
+
     with open(filename, 'rb') as f:
         data = f.read()
 
@@ -111,17 +111,18 @@ def check_safety(
         return False
 
     if likely_safe:
-        stderr.write(
-            "Warning: Fickling failed to detect any overtly unsafe code, but the pickle file may "
-            "still be unsafe.\n\nDo not unpickle this file if it is from an untrusted source!\n"
-        )
+        # stderr.write(
+        #     "Warning: Fickling failed to detect any overtly unsafe code, but the pickle file may "
+        #     "still be unsafe.\n\nDo not unpickle this file if it is from an untrusted source!\n"
+        # )
         return True
     else:
         return False
-
-# filename='unsafe.pkl'
+#
+# filename='malicious_exec.pkl'
 # with open(filename, 'rb') as f:
 #     pickled_data = f.read()
+#     # print(pickled_data.decode('latin1'))
 # pickled_obj = Pickled.load(pickled_data)
 # print(fickling.analysis.check_safety(pickled_obj))
 # check_safety(pickled_obj,filename)
