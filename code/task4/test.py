@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 import fickling.analysis as analysis
 from fickling.pickle import Pickled
-import MaliciousExtraction
+import scan_pickle_file
 import cdr
 
 class TestSafety(unittest.TestCase):
@@ -70,6 +70,17 @@ class TestSafety(unittest.TestCase):
         with open('safe_os.pkl', 'wb') as f:
             pickle.dump(Os(), f)
 
+        # Create a malicious pickle
+        student_names = ['Alice','Bob','Elena','Jane','Kyle']
+        pickle_bin = pickle.dumps(student_names)
+        p = Pickled.load(pickle_bin)
+        p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
+        p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
+        p.insert_python_exec("import module print('malicious')")
+        p.insert_python_exec("import os  os.system('echo Malicious code!')")
+
+        with open('unsafe.pkl', 'wb') as f:
+            p.dump(f)
 
     def test_mal_exec(self):
         print("--------------------------mal_exec----------------------------------")
@@ -85,7 +96,43 @@ class TestSafety(unittest.TestCase):
             print("clean")
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
+            print("Now removing the malicious data....")
+            with patch('sys.stdout') as stdout:
+                cdr_result = cdr.check_safety(pickled_obj,filename)
+                self.assertTrue(True) # Expecting clean
+
+                # Finally, run analysis.py again
+                with open(filename, 'rb') as f:
+                    pickled_data = f.read()
+                pickled_obj = Pickled.load(pickled_data)
+                analysis_result_2 = analysis.check_safety(pickled_obj)
+                self.assertTrue(True) # Expecting clean
+            # Check stdout for expected messages
+            if analysis_result_2 == True:
+                print("clean")
+                print("\nThe clean data left in the file:")
+                with open(filename, 'rb') as f:
+                    pickled_data = pickle.load(f)
+                print(pickled_data)
+            else:
+                print("not clean")
+
+    def test_mal_Pickled(self):
+        print("-----------------------mal_Pickled-------------------------------------")
+        with patch('sys.stdout') as stdout:
+            filename= 'unsafe.pkl'
+            with open(filename, 'rb') as f:
+                pickled_data = f.read()
+            pickled_obj = Pickled.load(pickled_data)
+            # First run analysis.py
+            analysis_result = analysis.check_safety(pickled_obj)
+            self.assertFalse(False) # Expecting not clean
+        if analysis_result == True:
+            print("clean")
+        else:
+            print("not clean")
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -105,6 +152,7 @@ class TestSafety(unittest.TestCase):
                 print(pickled_data)
             else:
                 print("not clean")
+                # print(cdr.check_safety())
     def test_mal_compile(self):
         print("-----------------------mal_compile-------------------------------------")
         with patch('sys.stdout') as stdout:
@@ -119,7 +167,7 @@ class TestSafety(unittest.TestCase):
             print("clean")
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -154,7 +202,7 @@ class TestSafety(unittest.TestCase):
             print("clean")
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -189,7 +237,7 @@ class TestSafety(unittest.TestCase):
             print("clean")
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -224,7 +272,7 @@ class TestSafety(unittest.TestCase):
             print("clean")
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -261,7 +309,7 @@ class TestSafety(unittest.TestCase):
             print(pickled_data)
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -298,7 +346,7 @@ class TestSafety(unittest.TestCase):
                 print(pickled_data)
             else:
                 print("not clean")
-                MaliciousExtraction.scann(filename)
+                scan_pickle_file.scann(filename)
                 print("Now removing the malicious data....")
                 with patch('sys.stdout') as stdout:
                     cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -335,7 +383,7 @@ class TestSafety(unittest.TestCase):
             print(pickled_data)
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)
@@ -372,7 +420,7 @@ class TestSafety(unittest.TestCase):
             print(pickled_data)
         else:
             print("not clean")
-            MaliciousExtraction.scann(filename)
+            scan_pickle_file.scann(filename)
             print("Now removing the malicious data....")
             with patch('sys.stdout') as stdout:
                 cdr_result = cdr.check_safety(pickled_obj,filename)

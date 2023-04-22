@@ -119,7 +119,7 @@ def check_safety(
     else:
         return False
 #
-# filename='malicious_exec.pkl'
+# filename='unsafe.pkl'
 # with open(filename, 'rb') as f:
 #     pickled_data = f.read()
 #     # print(pickled_data.decode('latin1'))
