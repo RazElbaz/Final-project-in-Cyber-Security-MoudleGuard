@@ -1,4 +1,4 @@
-#Task 4
+# Task 4
 The task is to modify the pickle package by removing parts that could be used for malicious attacks, add a new capability called cdr.py, and then test that this change works by running parse and cdr, and verifying that parse returns "clean" after cdr is called.
 
 Here are the steps I will take:
