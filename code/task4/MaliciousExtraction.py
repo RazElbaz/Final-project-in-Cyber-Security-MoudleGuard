@@ -152,7 +152,7 @@ def malPKL(filename):
 
 
 def scann(scan):
-    print("------------------------------scanning-pickle----------------------------------------")
+    print("\n******scanning-pickle******")
     result_output = ""
     result_total = 0
     result_other = 0
@@ -184,71 +184,79 @@ def scann(scan):
         if (input.find(call) > -1):
             result_calls[call] += 1
             result_total += 1
-            result_output += "\n----- found lib call (" + call + ") -----\n"
+            result_output += "----- found lib call (" + call + ") -----\n"
             result_output += input
 
     for signal in BAD_SIGNAL:
         if (input.find(signal) > -1):
             result_signals[signal] += 1
             result_total += 1
-            result_output += "\n----- found malicious signal (" + signal + ") -----\n"
+            result_output += "----- found malicious signal (" + signal + ") -----\n"
             result_output += input
 
     for file in BAD_FILES:
         if (input.find(file) > -1):
             result_files[file] += 1
             result_total += 1
-            result_output += "\n----- found malicious file (" + file + ") -----\n"
+            result_output += "----- found malicious file (" + file + ") -----\n"
             result_output += input
 
     for lib in BAD_LIBRARY:
         if (input.find(lib) > -1):
             result_library[lib] += 1
             result_total += 1
-            result_output += "\n----- found malicious signal (" + lib + ") -----\n"
+            result_output += "----- found malicious signal (" + lib + ") -----\n"
             result_output += input
 
     for impo in BAD_IMPORT:
         if (input.find(impo) > -1):
             result_import[impo] += 1
             result_total += 1
-            result_output += "\n----- found malicious import (" + impo + ") -----\n"
+            result_output += "----- found malicious import (" + impo + ") -----\n"
             result_output += input
     for cm in BAD_CMD:
         if (input.find(cm) > -1):
             result_cmd[impo] += 1
             result_total += 1
-            result_output += "\n----- found malicious cmd command (" + cm + ") -----\n"
+            result_output += "----- found malicious cmd command (" + cm + ") -----\n"
             result_output += input
     for mod in BAD_MODULE:
         if (input.find(mod) > -1):
             result_moudle[mod] += 1
             result_total += 1
-            result_output += "\n----- found malicious module (" + mod + ") -----\n"
+            result_output += "----- found malicious module (" + mod + ") -----\n"
             result_output += input
 
-    if (result_total > 0):
+    if result_total > 0:
         for file in BAD_FILES:
-            print("malicious file (" + file + "): " + str(result_files[file]))
+            if (result_files[file])>0:
+                print("malicious file (" + file + "): " + str(result_files[file]))
         for lib in BAD_LIBRARY:
-            print("malicious lib (" + lib + "): " + str(result_library[lib]))
+            if (result_library[lib])>0:
+                print("malicious lib (" + lib + "): " + str(result_library[lib]))
         for call in BAD_CALLS:
-            print("library call (" + call + ".): " + str(result_calls[call]))
+            if (result_calls[call])>0:
+                print("library call (" + call + ".): " + str(result_calls[call]))
         for signal in BAD_SIGNAL:
-            print("malicious signal (" + signal + "): " + str(result_signals[signal]))
+            if (result_signals[signal])>0:
+                print("malicious signal (" + signal + "): " + str(result_signals[signal]))
         for c in BAD_CMD:
-            print("malicious cmd command (" + c + "): " + str(result_cmd[c]))
+            if (result_cmd[c])>0:
+                print("malicious cmd command (" + c + "): " + str(result_cmd[c]))
         for m in BAD_MODULE:
-            print("malicious module (" + m + "): " + str(result_moudle[m]))
+            if (result_moudle[m])>0:
+                print("malicious module (" + m + "): " + str(result_moudle[m]))
         for i in BAD_IMPORT:
-            print("malicious import (" + i + "): " + str(result_import[i]))
-        print("non-standard calls: " + str(result_other))
-        print("total: " + str(result_total))
-        print("")
-        print(colored("SCAN FAILED", "red"))
+            if (result_import[i])>0:
+                print("malicious import (" + i + "): " + str(result_import[i]))
+        if (result_other)>0:
+            print("non-standard calls: " + str(result_other))
+        # print("total: " + str(result_total))
 
-        print(result_output)
-        print(result_total)
+        print(colored("SCAN FAILED\n", "red"))
+
+        # print(result_output)
+        # print(result_total)
     else:
         print(colored("SCAN PASSED!", "green"))
 

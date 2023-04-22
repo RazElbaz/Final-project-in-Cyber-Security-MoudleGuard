@@ -105,7 +105,7 @@ def check_safety(
     # write the safe lines to a new pickle file
     with open(filename, 'wb') as f:
          pickle.dump('\n'.join(safe_lines), f)
-    print(safe_lines)
+    # print(safe_lines)
     if not safe_lines:
         # If there are no safe lines, return False to indicate that the pickle is unsafe
         return False
