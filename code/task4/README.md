@@ -1,5 +1,10 @@
 # Task 4
 The task is to modify the pickle package by removing parts that could be used for malicious attacks, add a new capability called cdr.py, and then test that this change works by running parse and cdr, and verifying that parse returns "clean" after cdr is called.
+I need to remove the parts that can cause an attack because a pickle has parts that make it explosive. I want to take their package. Add a new capability called cdr.py. and then in the tests to perform:  
+analysis  
+cdr  
+analysis  
+when the latter should show me "clean"  
 
 Here are the steps I will take:
 
