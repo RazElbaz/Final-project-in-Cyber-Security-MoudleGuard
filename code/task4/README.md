@@ -27,7 +27,7 @@ Here are the steps I will take:
 
 
 ### What remains to be done:
-Check with unsafe again
-Add the test with fkicking
-Add more tests in general
-Create more pickle files and test
+Check with unsafe again  
+Add the test with fkicking  
+Add more tests in general  
+Create more pickle files and test  
