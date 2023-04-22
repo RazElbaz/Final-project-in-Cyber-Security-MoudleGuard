@@ -147,6 +147,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -182,6 +183,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -217,6 +219,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -252,6 +255,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -287,6 +291,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -324,6 +329,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -361,6 +367,7 @@ class TestSafety(unittest.TestCase):
                 # Check stdout for expected messages
                 if analysis_result_2 == True:
                     print("clean")
+                    print("\nThe clean data left in the file:")
                     with open(filename, 'rb') as f:
                         pickled_data = pickle.load(f)
                     print(pickled_data)
@@ -398,6 +405,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
@@ -435,6 +443,7 @@ class TestSafety(unittest.TestCase):
             # Check stdout for expected messages
             if analysis_result_2 == True:
                 print("clean")
+                print("\nThe clean data left in the file:")
                 with open(filename, 'rb') as f:
                     pickled_data = pickle.load(f)
                 print(pickled_data)
