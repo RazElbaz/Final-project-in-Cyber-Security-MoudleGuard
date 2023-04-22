@@ -1,3 +1,4 @@
+#Task 4
 The task is to modify the pickle package by removing parts that could be used for malicious attacks, add a new capability called cdr.py, and then test that this change works by running parse and cdr, and verifying that parse returns "clean" after cdr is called.
 
 Here are the steps I will take:
@@ -19,3 +20,10 @@ Here are the steps I will take:
 8.After the tests pass, I can use the custom pickle package and cdr.py in your project.
 
 ♥Changing a Python core package like a pickle can be dangerous and may have unintended consequences. It's important to thoroughly test your changes and make sure they don't break any existing code.
+
+
+### What remains to be done:
+Check with unsafe again
+Add the test with fkicking
+Add more tests in general
+Create more pickle files and test
