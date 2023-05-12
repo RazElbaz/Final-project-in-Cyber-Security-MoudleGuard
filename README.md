@@ -35,7 +35,6 @@ For example, an attacker could use the `exec()` function to execute malicious co
 The `eval()` function in Python is considered dangerous because it executes arbitrary code as a string input. This means that any string passed to `eval()` will be executed as if it were a Python statement. If the string contains malicious code, it can have unintended consequences and cause security vulnerabilities.
 An attacker could exploit the `eval()` function to execute arbitrary code by passing in malicious code as a string. This can be particularly dangerous if the input string comes from an untrusted source, such as user input, as it can allow attackers to execute arbitrary code on the target system.
 For example, consider the following code:
-
 ```
 user_input = input("Enter a Python expression: ")
 result = eval(user_input)
