@@ -26,18 +26,14 @@ The pickle module uses a binary format to serialize Python objects, which consis
 
 2. `malicious_exec.pkl`: This pickle file contains a malicious `ExecuteCode` object that, when unpickled along with a list of values, executes the arbitrary code `"import os; os.system('echo I am executing arbitrary code!')"`. This can be used to execute any arbitrary code on the target machine.  
 The `exec()` function in Python is used to execute a block of code dynamically at runtime. While it can be a powerful tool for experienced developers to create dynamic and flexible programs, it can also be dangerous in the hands of attackers or inexperienced programmers.
-
 One of the main reasons why the `exec()` function can be dangerous is that it allows arbitrary code execution. This means that any string passed to the function can be executed as Python code, including code that could potentially be harmful.
-
 For example, an attacker could use the `exec()` function to execute malicious code that could delete files, modify system settings, or even take control of the entire system. Additionally, the `exec()` function can make it difficult to track down bugs or errors in code, as errors may only be discovered at runtime.
 
 3. `student_file.pkl`: This pickle file contains a list of student names, but there is no malicious attack associated with it.
 
 4. `malicious_eval.pkl`: This pickle file contains a malicious `EvalCode` object that, when unpickled, executes the code `"['a', 'b', 'c']"`. This can be used to execute arbitrary code on the target machine.    
 The `eval()` function in Python is considered dangerous because it executes arbitrary code as a string input. This means that any string passed to `eval()` will be executed as if it were a Python statement. If the string contains malicious code, it can have unintended consequences and cause security vulnerabilities.
-
 An attacker could exploit the `eval()` function to execute arbitrary code by passing in malicious code as a string. This can be particularly dangerous if the input string comes from an untrusted source, such as user input, as it can allow attackers to execute arbitrary code on the target system.
-
 For example, consider the following code:
 
 ```
@@ -61,7 +57,7 @@ This is dangerous because it allows an attacker to execute arbitrary code on the
 
 9. `safe_os.pkl`: This pickle file contains a safe `Os` object that, when unpickled, executes the code `"echo 'Hello, world!'"` using the `system()` function from the `os` module. This is not a malicious attack.
 
-10. `unsafe.pkl`: This pickle file contains a maliciously crafted `Pickled` object that, when unpickled, executes several lines of code, including `with open('/etc/passwd','r') as r: print(r.readlines())`, `with open('/etc/group','r') as r: print(r.readlines())`, and `os.system('echo Malicious code!')`. This can be used to read sensitive files and execute arbitrary code on the target machine.
+10. `unsafe.pkl`: This pickle file contains a maliciously crafted `Pickled` object that, when unpickled, executes several lines of code, including `with open('/etc/passwd','r') as r: print(r.readlines())`, `with open('/etc/group','r') as r: print(r.readlines())`, and `os.system('echo Malicious code!')`. This can be used to read sensitive files and execute arbitrary code on the target machine.  
 The file `unsafe.pkl` is dangerous because it contains malicious code that can be executed when the file is loaded using the `pickle` module. 
 The code creates a list of student names and then pickles it using the `pickle.dumps()` method. It then loads the pickled object into a `Pickled` object and inserts four different lines of malicious code using the `insert_python_exec()` method. 
 The first two lines of malicious code open and read the `/etc/passwd` and `/etc/group` files, which can be a serious security risk as these files contain sensitive information about users and groups on the system. 
