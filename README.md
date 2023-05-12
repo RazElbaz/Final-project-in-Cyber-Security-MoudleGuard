@@ -20,8 +20,7 @@ The pickle module also defines several functions for serializing and deserializi
 
 The pickle module uses a binary format to serialize Python objects, which consists of a series of bytes that represent the object in a compact and efficient way. The format includes a protocol version number, a serialized representation of the object's data, and a series of instructions that describe how to recreate the object. The format is designed to be flexible and extensible, and can handle a wide range of Python objects.
 
-
-Sure, here's a detailed explanation of each pickle file and the associated attack:
+## Overview of Pickle Files
 
 1. `malicious_socket.pkl`: This pickle file contains a malicious `socket` object. When the object is unpickled, it returns a new `socket` object with the address family set to `AF_INET` and the socket type set to `SOCK_STREAM`. This can be used to establish a network connection and potentially execute malicious code on the target machine.
 
