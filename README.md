@@ -25,11 +25,16 @@ Sure, here's a detailed explanation of each pickle file and the associated attac
 
 1. `malicious_socket.pkl`: This pickle file contains a malicious `socket` object. When the object is unpickled, it returns a new `socket` object with the address family set to `AF_INET` and the socket type set to `SOCK_STREAM`. This can be used to establish a network connection and potentially execute malicious code on the target machine.
 
-2. `malicious_exec.pkl`: This pickle file contains a malicious `ExecuteCode` object that, when unpickled along with a list of values, executes the arbitrary code `"import os; os.system('echo I am executing arbitrary code!')"`. This can be used to execute any arbitrary code on the target machine.
+2. `malicious_exec.pkl`: This pickle file contains a malicious `ExecuteCode` object that, when unpickled along with a list of values, executes the arbitrary code `"import os; os.system('echo I am executing arbitrary code!')"`. This can be used to execute any arbitrary code on the target machine.  
+The `exec()` function in Python is used to execute a block of code dynamically at runtime. While it can be a powerful tool for experienced developers to create dynamic and flexible programs, it can also be dangerous in the hands of attackers or inexperienced programmers.
+
+One of the main reasons why the `exec()` function can be dangerous is that it allows arbitrary code execution. This means that any string passed to the function can be executed as Python code, including code that could potentially be harmful.
+
+For example, an attacker could use the `exec()` function to execute malicious code that could delete files, modify system settings, or even take control of the entire system. Additionally, the `exec()` function can make it difficult to track down bugs or errors in code, as errors may only be discovered at runtime.
 
 3. `student_file.pkl`: This pickle file contains a list of student names, but there is no malicious attack associated with it.
 
-4. `malicious_eval.pkl`: This pickle file contains a malicious `EvalCode` object that, when unpickled, executes the code `"['a', 'b', 'c']"`. This can be used to execute arbitrary code on the target machine.  
+4. `malicious_eval.pkl`: This pickle file contains a malicious `EvalCode` object that, when unpickled, executes the code `"['a', 'b', 'c']"`. This can be used to execute arbitrary code on the target machine.    
 The `eval()` function in Python is considered dangerous because it executes arbitrary code as a string input. This means that any string passed to `eval()` will be executed as if it were a Python statement. If the string contains malicious code, it can have unintended consequences and cause security vulnerabilities.
 
 An attacker could exploit the `eval()` function to execute arbitrary code by passing in malicious code as a string. This can be particularly dangerous if the input string comes from an untrusted source, such as user input, as it can allow attackers to execute arbitrary code on the target system.
