@@ -20,6 +20,53 @@ The pickle module also defines several functions for serializing and deserializi
 
 The pickle module uses a binary format to serialize Python objects, which consists of a series of bytes that represent the object in a compact and efficient way. The format includes a protocol version number, a serialized representation of the object's data, and a series of instructions that describe how to recreate the object. The format is designed to be flexible and extensible, and can handle a wide range of Python objects.
 
+## The attack types supported by the script
+
+- mal_exec: Executes malicious code using the `exec` function.
+- mal_Pickled: Loads a malicious Pickled object from a file and executes it.
+- mal_compile: Compiles and executes malicious code using the `compile` function.
+- mal_open: Reads malicious code from a file and executes it using the `open` function.
+- mal_eval: Executes malicious code using the `eval` function.
+- malicious_socket: Creates a malicious socket and listens for connections.
+- safe_student_file: Demonstrates safe file handling practices when reading from a file.
+- safe_fruits: Demonstrates safe handling of user input by ensuring that only safe inputs are accepted.
+- safe_person_dictionary: Demonstrates safe dictionary usage by ensuring that only safe inputs are accepted.
+- safe_os: Demonstrates safe usage of the `os` module by ensuring that only safe commands are executed.
+
+The type of attack is passed in as the first argument to the script. For example, to execute the `mal_exec` attack, you would run the script with the command:
+
+```
+python attack_cmd.py mal_exec
+```
+
+This would call the `mal_exec()` function, which executes malicious code using the `exec` function. 
+
+
+The code snippet appears to include multiple attacks, each of which targets different vulnerabilities. Here is a brief explanation of each attack and their parameters:
+
+1. Arbitrary code execution attack:
+
+   The "ExecuteCode" class contains code that will be executed when it's unpickled. The "__reduce__" method is defined in this class, and it returns the built-in "exec" function along with a string argument that contains the code to be executed. The code to be executed in this case is "import os; os.system('echo I am executing arbitrary code!')". This attack is dangerous because it allows an attacker to execute arbitrary code on the victim's computer, which can be used for various purposes such as stealing sensitive information or damaging the system.
+
+2. Evaluation attack:
+
+   The "EvalCode" class contains code that will be evaluated when it's unpickled. The "__reduce__" method is defined in this class, and it returns the built-in "eval" function along with a string argument that contains the code to be evaluated. The code to be evaluated in this case is "['a', 'b', 'c']". This attack is less dangerous than the arbitrary code execution attack because it only evaluates a string literal, but it still allows an attacker to execute arbitrary code on the victim's computer.
+
+3. Code compilation attack:
+
+   The "CompileCode" class contains code that will be compiled and executed when it's unpickled. The "__reduce__" method is defined in this class, and it returns the built-in "compile" function along with three string arguments that represent the code to be compiled, the name of the code, and the mode in which the code is executed (in this case, "exec"). The code to be compiled and executed in this case is "print('I execute code that runs on your computer')". This attack is similar to the arbitrary code execution attack in that it allows an attacker to execute arbitrary code on the victim's computer.
+
+4. File system access attack:
+
+   The "OpenFile" class contains code that will access the victim's file system when it's unpickled. The "__reduce__" method is defined in this class, and it returns the built-in "exec" function along with a string argument that contains the code to be executed. The code to be executed in this case is "f = open('/etc/passwd', 'r'); print(f.read()); f.close()". This code opens the "/etc/passwd" file, which contains sensitive system information, and prints its contents. This attack is dangerous because it allows an attacker to access sensitive files on the victim's computer.
+
+5. Socket creation attack:
+
+   The "MalSocket" class creates a malicious socket when it's unpickled. The "__reduce__" method is defined in this class, and it returns the built-in "socket.socket" function along with two arguments that specify the socket type and protocol. This attack is dangerous because it allows an attacker to create a socket on the victim's computer that can be used to communicate with other malicious entities.
+
+6. Unsafe pickle attack:
+
+   The "Pickled" class contains an unsafe pickle that allows arbitrary code execution when it's unpickled. The "insert_python_exec" method is defined in this class, and it allows an attacker to insert arbitrary Python code into the pickle. The parameters for this attack are the Python code to be executed when the pickle is unpickled. This attack is dangerous because it allows an attacker to execute arbitrary code on the victim's computer.  
 ## Overview of Pickle Files
 
 1. `malicious_socket.pkl`: This pickle file contains a malicious `socket` object. When the object is unpickled, it returns a new `socket` object with the address family set to `AF_INET` and the socket type set to `SOCK_STREAM`. This can be used to establish a network connection and potentially execute malicious code on the target machine.  
@@ -61,3 +108,6 @@ The first two lines of malicious code open and read the `/etc/passwd` and `/etc/
 The third line of code imports a module named `module` and prints the string "malicious". This may seem harmless, but importing unknown modules can be a security risk as the module could contain malicious code. 
 The fourth line of code uses the `os.system()` method to execute the shell command "echo Malicious code!", which can be a serious security risk as it allows arbitrary code execution on the system. 
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.  
+
+
+
