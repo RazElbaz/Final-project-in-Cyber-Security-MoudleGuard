@@ -67,7 +67,7 @@ python attack_cmd.py mal_exec
 
 This would call the `mal_exec()` function, which executes malicious code using the `exec` function. 
 
-
+## Explanation of Multiple Attacks in a Code Snippet Targeting Different Vulnerabilities.
 The code snippet appears to include multiple attacks, each of which targets different vulnerabilities. Here is a brief explanation of each attack and their parameters:
 
 1. Arbitrary code execution attack:
