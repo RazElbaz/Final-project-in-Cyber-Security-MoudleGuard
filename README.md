@@ -18,8 +18,34 @@ The pickle module also defines several functions for serializing and deserializi
 - pickle.loads(bytes_object, *, fix_imports=True, encoding="ASCII", errors="strict")
   - This function deserializes a pickled object from the bytes object 'bytes_object' and returns the deserialized Python object.
 
-The pickle module uses a binary format to serialize Python objects, which consists of a series of bytes that represent the object in a compact and efficient way. The format includes a protocol version number, a serialized representation of the object's data, and a series of instructions that describe how to recreate the object. The format is designed to be flexible and extensible, and can handle a wide range of Python objects.
+The pickle module uses a binary format to serialize Python objects, which consists of a series of bytes that represent the object in a compact and efficient way. The format includes a protocol version number, a serialized representation of the object's data, and a series of instructions that describe how to recreate the object. The format is designed to be flexible and extensible, and can handle a wide range of Python objects.  
+## How to Run:
+To call the code, you can run it from the command line using the following command:
 
+```
+python attack_cmd.py [attack_type]
+```
+
+Replace `[attack_type]` with the type of attack you want to execute. Here are the available options:
+
+- `mal_exec`
+- `mal_Pickled`
+- `mal_compile`
+- `mal_open`
+- `mal_eval`
+- `malicious_socket`
+- `safe_student_file`
+- `safe_fruits`
+- `safe_person_dictionary`
+- `safe_os`
+
+For example, to execute the arbitrary code execution attack, you would run:
+
+```
+python attack_cmd.py mal_exec
+```
+
+Make sure you have Python installed on your system and that you are in the same directory as the `attack_cmd.py` file when you run the command.  
 ## The attack types supported by the script
 
 - mal_exec: Executes malicious code using the `exec` function.
