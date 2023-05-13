@@ -174,10 +174,10 @@ To defend against this type of attack, it's important to avoid unpickling data f
                                   |               |             |
                                   v               v             v
                        +---------------------+    |    +---------------------+
-                       | Object is safe       |    |    | Object is not safe   |
+                       | Object is safe       |   |    | Object is not safe   |
                        +---------------------+    |    +---------------------+
-                                                 |               |
-                                                 v               |
+                                                  |              |
+                                                  v              |
                                   +------------------------------+
                                   | Load and scan pickle file for |
                                   |  malicious data removal      |
@@ -188,32 +188,32 @@ To defend against this type of attack, it's important to avoid unpickling data f
                                   | Load and check pickle file for|
                                   |  cleaned object               |
                                   +------------------------------+
-                                                 |
+                                                  |
                                   +---------------+-------------+
                                   |               |             |
                                   v               v             v
                     +-----------------------+    |    +------------------------+
-                    | Object is safe         |    |    | Object is not safe      |
+                    | Object is safe         |   |    | Object is not safe      |
                     +-----------------------+    |    +------------------------+
                                                  |               |
                                                  v               |
                                   +------------------------------+
                                   | Check safety of cleaned obj   |
                                   +------------------------------+
-                                                 |
+                                                  |
                                   +---------------+-------------+
                                   |               |             |
                                   v               v             v
-                     +----------------------+   |    +------------------------+
-                     | Cleaned object is    |   |    | Cleaned object is not    |
-                     | safe                 |   |    | safe                     |
-                     +----------------------+   |    +------------------------+
-                                                 |               |
-                                                 v               |
-                                  +------------------------------+
-                                  | Print clean data from pickle  |
-                                  | file                          |
-                                  +------------------------------+
+                     +----------------------+     |    +------------------------+
+                     | Cleaned object is    |     |    | Cleaned object is not    |
+                     | safe                 |     |    | safe                     |
+                     +----------------------+     |    +------------------------+
+                                                  |               |
+                                                  v               |
+                                    +------------------------------+
+                                    | Print clean data from pickle  |
+                                    | file                          |
+                                    +------------------------------+
 
 
  ```
@@ -294,34 +294,34 @@ To defend against this type of attack, it's important to avoid unpickling data f
 **Attack Flow:**
 ```
     .--------------------.                          .---------------------.
-    |                    |                          |                     |
+    |                    |                          |                      |
     |  MalSocket object  |         2. Pickle        |  malicious_socket.pkl|
-    |                    | <-----------------------|                     |
+    |                    | <-----------------------  |                     |
     '--------------------'                          '---------------------'
              |                                                   |
              |                                                   |
              v                                                   v
     .--------------------.                          .---------------------.
     |                    |                          |                     |
-    |   malicious_socket |         4. Load          |   unpickled object   |
-    |      function      | <-----------------------|     from file        |
+    |   malicious_socket |         4. Load          |   unpickled object  |
+    |      function      | <----------------------- |     from file       |
     |                    |                          |                     |
     '--------------------'                          '---------------------'
              |                                                   |
              |                      5. Check safety              |
              v                                                   v
-    .--------------------.                          .---------------------.
-    |                    |                          |                     |
-    |   analysis.check   |       6. True: print      |    "Clean" message   |
+    .--------------------.                         .---------------------.
+    |                    |                         |                     |
+    |   analysis.check   |       6. True: print    |    "Clean" message  |
     |       safety       | <-----------------------|                     |
-    |                    |                          |                     |
-    '--------------------'                          '---------------------'
+    |                    |                         |                     |
+    '--------------------'                         '---------------------'
              |                                                   |
              |                      7. False: scan file           |
              v                                                   v
     .--------------------.                          .---------------------.
     |                    |                          |                     |
-    |  scan_pickle_file  |                          |      cdr.check       |
+    |  scan_pickle_file  |                          |      cdr.check      |
     |                    |                          |        safety       |
     |        scann       |                          |                     |
     |                    |                          |                     |
@@ -339,8 +339,8 @@ To defend against this type of attack, it's important to avoid unpickling data f
              v                                                   v
     .--------------------.                          .---------------------.
     |                    |                          |                     |
-    |                    |                          |    "Clean" message   |
-    |     Not Clean      |                          |   and clean data     |
+    |                    |                          |    "Clean" message  |
+    |     Not Clean      |                          |   and clean data    |
     |     message        |                          |                     |
     |                    |                          |                     |
     '--------------------'                          '---------------------'
@@ -616,25 +616,25 @@ The flow of the disarm is as follows:
                         +---------------v---+                                 |            |
                         | Check pickle again|                                 |            |
                         +---------------+---+                                 |            |
-                                           |                                     |         |
-                                           |                                     |         |
-                        /------------------+                                     |         |
-                       /                                                         |           |
-          +---------v----------+                                                |             |
-          | If pickle is clean |                                                |             |
-          +--------------------+                                                |             |
-                               |                                                |             |
-                               |                                                |             |
-                +--------------v---------------+                                  |             |
-                | Open pickle and load object |                                  |             |
-                +--------------+---------------+                                  |             |
-                               |                                                  |             |
-                               |                                                  |             |
-                /--------------+---------------\                                  |             |
-               /                                \                                 |             |
-+---------v----+                          +-----+------+                           |             |
-| Print "Clean" |                          | Remove CDR |                           |             |
-+--------------+                          +-----------+                           |             |
+                                           |                                  |            |
+                                           |                                  |            |
+                        /------------------+                                  |            |
+                       /                                                      |            |
+          +---------v----------+                                              |            |
+          | If pickle is clean |                                              |            |
+          +--------------------+                                              |            |
+                               |                                              |            |
+                               |                                              |            |
+                +--------------v---------------+                              |            |
+                | Open pickle and load object |                               |            |
+                +--------------+---------------+                               |           |
+                               |                                                |          |
+                               |                                                 |         |
+                /--------------+---------------\                                  |        |
+               /                                \                                 |        |
++---------v----+                          +-----+------+                           |       |
+| Print "Clean" |                          | Remove CDR |                           |      |
++--------------+                          +-----------+                               |    |
                                                                                         |
                                                                                         |
                                                                          +--------------v--------------+
@@ -658,16 +658,16 @@ The flow of the disarm is as follows:
               +------------------------------------+
               |         Initial State               |
               +------------------------------------+
-                            |
-                            V
-            +----------------------------------+
-            |      pickle.dumps(student_names) |
-            +----------------------------------+
-                            |
-                            V
-         +----------------------------------+
-         |       Pickled.load(pickle_bin)  |
-         +----------------------------------+
+                              |
+                              V
+                +----------------------------------+
+                |      pickle.dumps(student_names) |
+                +----------------------------------+
+                              |
+                              V
+               +----------------------------------+
+               |       Pickled.load(pickle_bin)  |
+               +----------------------------------+
                             |
                             V
    +----------------------------------------------------------------------------------+
