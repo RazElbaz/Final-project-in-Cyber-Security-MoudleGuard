@@ -205,78 +205,58 @@ The attack flow consists of several steps:
 
 **Disarm Flow:**
 
-```
-                            +----------------------+
-                            |   Start Disarm Flow   |
-                            +----------------------+
-                                        |
-                                        |
-                                        v
-                         +------------------------------+
-                         | Check if analysis_result == 1 |
-                         +------------------------------+
-                                        |
-                                        |
-                        +-----------------+-----------------+
-                        |                 |                 |
-                        v                 v                 v
-            +-------------------+ +-------------------+ +-------------------+
-            |   Clean and Exit  | |   Scanning Check  | |  CDR Check & Fix  |
-            +-------------------+ +-------------------+ +-------------------+
-            (analysis_result_2=1) (analysis_result_2=0) (analysis_result_2=0)
-                        |                 |                 |
-                        v                 v                 v
-            +-------------------+ +-------------------+ +-------------------+
-            |                   | |                   | |                   |
-            v                   v v                   v v                   v
-    +----------------+  +----------------+  +----------------+  +----------------+
-    |  Print Cleaned  |  |  Print Cleaned  |  | Print Not Clean |  | Print Not Clean |
-    |    Data Left    |  |    Data Left    |  |  and File Fixed |  |   and Exit...   |
-    +----------------+  +----------------+  +----------------+  +----------------+
-   (analysis_result_2=1) (analysis_result_2=0) (analysis_result_2=0)          |
-                                        |                                    |
-                                        v                                    |
-                         +------------------------------+                    |
-                         |     End Disarm Flow         |                    |
-                         +------------------------------+                    |
-                                        |                                    |
-                                        v                                    |
-                            +----------------------+                          |
-                            |   End of Function     |                          |
-                            +----------------------+                          |
-                                        |                                       |
-                                        v                                       |
-                             +---------------------------------+               |
-                             |   End of Control Flow Graph        |               |
-                             +---------------------------------+               |
-```
-
 Defense Flow for the "ExecuteCode" attack:
 
-1. Load Pickled Object: Load the pickled object containing the malicious code.
-2. Check Safety (1st time): Run the analysis script to check if the pickled object is safe. If the object is safe, skip to step 7.
-3. Print "not clean": If the object is not safe, print "not clean" and proceed to the next step.
-4. Scan Pickle File: Use the scan_pickle_file script to remove the malicious code from the pickled object.
-5. Check Safety (2nd time): Use the cdr and analysis scripts to check if the pickled object is safe. If the object is safe, proceed to step 7.
-6. Print "not clean" and Exit: If the pickled object is still not safe, print "not clean" and exit the program.
-7. Print "clean": If the pickled object is safe, print "clean".
-8. Load Clean Data: Load the clean data left in the file and print it. 
+1. The attacker defines the `ExecuteCode` class with the `__reduce__` method that calls `builtins.exec` with the arbitrary command as a string argument.
+2. The attacker serializes an instance of `ExecuteCode` class with some data to create the pickle.
+3. The attacker saves the pickle in a file named `malicious_exec.pkl`.
+4. The attacker calls the `mal_exec()` function.
+5. The function opens the `malicious_exec.pkl` file, reads the pickled data, and unpickles it into a Python object.
+6. The function runs the `check_safety` function of the `analysis` module to check if the unpickled object is safe.
+7. If the object is safe, the function prints "clean" and stops.
+8. If the object is not safe, the function calls the `scann` function of the `scan_pickle_file` module to remove any malicious code from the pickled object.
+9. The function then runs the `check_safety` function of the `cdr` module to verify that the pickled object is now safe.
+10. If the pickled object is safe, the function prints "clean" and stops.
+11. If the pickled object is not safe, the function prints "not clean" and stops.
 
-Diagram:
+
+
+Disarm Flow::
 
 ```
-Load Pickled Object
-    |
-    |___ Check Safety (1st time)
-          |
-          |___ Print "not clean"
-          |___ Scan Pickle File
-          |___ Check Safety (2nd time)
-                 |
-                 |___ Print "not clean" and Exit
-    |___ Print "clean"
-    |___ Load Clean Data and Print
+     [mal_exec() function]
+             |
+        [Execution]
+             |
+    [Loading pickled data]
+             |
+[Analysis check (1st run)]
+             |
+     [Print analysis result]
+             |
+  [Check analysis result]
+             |
+         [Clean]
+       /           \
+      |          [Malicious]
+      |          [Data Removal]
+      |             |
+ [Scan pickle file] |
+      |             |
+ [Data removal]    |
+      |             |
+ [Analysis check   |   (2nd run)]      |
+      |             |
+ [Print analysis   |    result]        |
+      |             |
+     [Clean]        |
+       \           /
+        |     [Print "not clean"]
+
 ```
+
+
+
 ## malicious_socket
 Attack Flow:
 1. The attacker creates a malicious socket object using the MalSocket class and pickles it.
