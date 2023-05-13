@@ -186,7 +186,68 @@ To defend against this type of attack, it's important to avoid unpickling data f
         |        Print "clean"        |            |       Print "not clean"       |
          ----------------------------             -------------------------------
 
+```  
 ```
+               +---------------+
+               |  Create pickle|
+               |  with Execute |
+               |  Code object  |
+               +---------------+
+                         |
+                         v
+               +---------------+
+               | Save pickle to |
+               |   file system  |
+               +---------------+
+                         |
+                         v
+               +---------------+
+               |   Load pickle  |
+               |    from file   |
+               +---------------+
+                         |
+                         v
+               +---------------+
+               | Check safety  |
+               |   of object    |
+               +---------------+
+                         |
+              +--------------+--------------+
+              |                             |
+              v                             v
+  +------------------+        +------------------+
+  |  Object is safe   |        |  Object is not    |
+  |                  |        |      safe         |
+  +------------------+        +------------------+
+                         |                |
+                         v                v
+              +--------------+--------------+
+              |                             |
+              v                             v
+     +-------------------+     +---------------------+
+     |   Load pickle     |     |   Remove malicious   |
+     |   from file       |     |   data from object   |
+     +-------------------+     +---------------------+
+                         |                |
+                         v                v
+              +--------------+--------------+
+              |                             |
+              v                             v
+     +-------------------+     +---------------------+
+     | Check safety of   |     | Load cleaned pickle |
+     |   cleaned object  |     |  from file           |
+     +-------------------+     +---------------------+
+                         |                |
+                         v                v
+              +--------------+--------------+
+              |                             |
+              v                             v
+     +-------------------+     +---------------------+
+     | Object is safe    |     | Object is not safe   |
+     |                   |     |                     |
+     +-------------------+     +---------------------+
+
+ ```
 The attack flow consists of several steps:
 
 1. The attacker defines a class called `ExecuteCode` with a `__reduce__` method that executes arbitrary code when the class is pickled and unpickled.
@@ -224,34 +285,43 @@ Defense Flow for the "ExecuteCode" attack:
 Disarm Flow::
 
 ```
-     [mal_exec() function]
-             |
-        [Execution]
-             |
-    [Loading pickled data]
-             |
-[Analysis check (1st run)]
-             |
-     [Print analysis result]
-             |
-  [Check analysis result]
-             |
-         [Clean]
-       /           \
-      |          [Malicious]
-      |          [Data Removal]
-      |             |
- [Scan pickle file] |
-      |             |
- [Data removal]    |
-      |             |
- [Analysis check   |   (2nd run)]      |
-      |             |
- [Print analysis   |    result]        |
-      |             |
-     [Clean]        |
-       \           /
-        |     [Print "not clean"]
+                +---------------+
+                |   Load pickle |
+                |    from file  |
+                +---------------+
+                          |
+                          v
+                +---------------+
+                | Check safety  |
+                |   of object   |
+                +---------------+
+                          |
+               +--------------+--------------+
+               |                             |
+               v                             v
+   +-------------------+         +-------------------+
+   |  Object is safe    |         |  Object is not safe|
+   |                   |         |                   |
+   +-------------------+         +-------------------+
+                          |                   |
+                          v                   v
+                +---------------+    +----------------------+
+                |   Load pickle |    | Remove malicious data |
+                |    from file  |    |  from object           |
+                +---------------+    +----------------------+
+                          |                   |
+                          v                   v
+                +---------------+    +----------------------+
+                | Check safety  |    |  Load cleaned pickle   |
+                |  of cleaned   |    |  from file             |
+                |     object    |    +----------------------+
+                +---------------+                |
+                          |                      v
+                          |          +----------------------+
+                          +--------> | Check safety of object |
+                                     +----------------------+
+
+
 
 ```
 
