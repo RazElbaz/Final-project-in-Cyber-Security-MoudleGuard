@@ -142,7 +142,7 @@ The third line of code imports a module named `module` and prints the string "ma
 The fourth line of code uses the `os.system()` method to execute the shell command "echo Malicious code!", which can be a serious security risk as it allows arbitrary code execution on the system. 
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
 
-## mal_exec
+## malicious_exec
 This code shows an example of a subattack that exploits Python's pickle module to execute arbitrary code. The `ExecuteCode` class defines a custom serialization method that will execute arbitrary code when an object of this class is deserialized using the `pickle.load()` method. This is achieved by returning a tuple with the `builtins.exec()` function as the first element and a string that contains the code to be executed as the second element.
 
 The attacker then creates a pickled object that contains an instance of the `ExecuteCode` class and a list called `my_list`, and saves it to a file called `malicious_exec.pkl`. This file can be used to attack a system that unpickles arbitrary data from an untrusted source.
@@ -260,3 +260,119 @@ The next step is to perform a CDR check and fix any remaining malicious data in 
 Finally, we perform the `analysis.check_safety()` function on the pickled object again and check if `analysis_result_2` is equal to 1. If `analysis_result_2` is 1, we exit the function and print the cleaned data if needed. If `analysis_result_2` is not 1, the function exits and prints that the data is not clean and the file is not fixed.
 
 At the end of the Disarm Flow, we reach the end of the function and the end of the Control Flow Graph.
+## malicious_socket
+Attack Flow:
+1. The attacker creates a malicious socket object using the MalSocket class and pickles it.
+2. The attacker saves the pickled object in a file named malicious_socket.pkl.
+3. The attacker runs the malicious_socket() function.
+4. The function loads the pickled object from the malicious_socket.pkl file.
+5. The function runs analysis.check_safety() on the pickled object.
+6. If analysis.check_safety() returns True, the function prints "clean" and exits.
+7. If analysis.check_safety() returns False, the function calls scan_pickle_file.scann() on the file name to scan for malicious content.
+8. The function calls cdr.check_safety() on the pickled object to check for malicious content and remove it if found.
+9. The function runs analysis.check_safety() on the pickled object again to check if it is clean.
+10. If analysis.check_safety() returns True, the function prints "clean", displays the clean data, and exits.
+11. If analysis.check_safety() returns False, the function prints "not clean" and exits.
+
+Defense Flow:
+1. The defender uses a combination of input validation and data sanitation to prevent malicious data from being pickled and saved in a file.
+2. The defender uses a whitelist to ensure that only valid objects can be pickled and loaded from a file.
+3. The defender scans all files for malicious content before loading them.
+4. The defender uses a combination of input validation and data sanitation to prevent malicious code from being executed during unpickling.
+5. The defender checks for the presence of malicious content in the unpickled object using cdr.check_safety() and removes it if found.
+6. The defender uses a combination of static analysis and dynamic testing to detect and prevent attacks during pickling and unpickling.
+7. The defender educates developers and users on the risks of pickling and unpickling untrusted data and encourages them to use safer alternatives.
+
+
+## malicious_eval  
+
+The attack here involves pickling and dumping an instance of the `EvalCode` class into a file named `malicious_eval.pkl`. This class defines a `__reduce__` method which returns `eval` and the argument `("['a', 'b', 'c']",)` when called. This means that when the object is unpickled, the `eval` function will be called with the argument `("['a', 'b', 'c']",)`, which will execute arbitrary code in the context of the program.  
+`
+                                 +-----------------+
+                                 |     Attacker    |
+                                 +-----------------+
+                                        |
+                                        | creates
+                                        |
+                                        V
+                                 +-----------------+
+                                 |  EvalCode() obj |
+                                 +-----------------+
+                                        |
+                                        | pickles into
+                                        |
+                                        V
+                             +-----------------------+
+                             | malicious_eval.pkl file |
+                             +-----------------------+
+                                        |
+                                        | loads and unpickles
+                                        |
+                                        V
+                                 +-----------------+
+                                 |   Malicious     |
+                                 |  code executed  |
+                                 +-----------------+
+                                        |
+                                        |
+                           +------------+------------+
+                           |                         |
+                           V                         V
+            +-------------------------+   +-------------------------+
+            |        Defense          |   |         Defense          |
+            +-------------------------+   +-------------------------+
+                                        |
+                                        | runs analysis.check_safety()
+                                        |
+                                        V
+                                 +-----------------+
+                                 | Safe or not safe|
+                                 +-----------------+
+                                        |
+                                        | if not safe, run
+                                        |
+                                        V
+                                 +-----------------+
+                                 | scan_pickle_file|
+                                 +-----------------+
+                                        |
+                                        | inspect for malicious data
+                                        |
+                                        V
+                                 +-----------------+
+                                 |  cdr.check_safety|
+                                 +-----------------+
+                                        |
+                                        | if clean, remove malicious code and run analysis.check_safety()
+                                        V
+                                 +-----------------+
+                                 | Safe or not safe|
+                                 +-----------------+
+                                        |
+                                        |
+                           +------------+------------+
+                           |                         |
+                           V                         V
+               +----------------------+   +-----------------------+
+               | Load clean object    |   |   Object still not safe |
+               | from malicious_eval.pkl|   |  Report and terminate   |
+               +----------------------+   +-----------------------+
+  `
+The flow of the attack is as follows:
+1. An instance of `EvalCode` class is created and pickled into a file named `malicious_eval.pkl`.
+2. The file is loaded and the pickled object is unpickled using `Pickled.load()` method.
+3. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object.
+4. If the object is determined to be safe, the program exits.
+5. If the object is determined to be unsafe, the `scann()` method from the `scan_pickle_file` module is called to scan the file for malicious data.
+6. The `check_safety()` method from the `cdr` module is then called to clean the object of malicious code.
+7. The file is loaded again and the pickled object is unpickled using `Pickled.load()` method.
+8. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object again.
+9. If the object is determined to be safe, the program exits.
+10. If the object is determined to be unsafe, the clean data left in the file is printed.
+
+The flow of the disarm is as follows:
+1. The `check_safety()` method from the `cdr` module is called to clean the object of malicious code.
+2. The file is loaded again and the pickled object is unpickled using `Pickled.load()` method.
+3. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object again.
+4. If the object is determined to be safe, the program exits.
+5. If the object is determined to be unsafe, the clean data left in the file is printed.
