@@ -143,7 +143,14 @@ The fourth line of code uses the `os.system()` method to execute the shell comma
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
 
 ## mal_exec
-Attack Flow:  
+This code shows an example of a subattack that exploits Python's pickle module to execute arbitrary code. The `ExecuteCode` class defines a custom serialization method that will execute arbitrary code when an object of this class is deserialized using the `pickle.load()` method. This is achieved by returning a tuple with the `builtins.exec()` function as the first element and a string that contains the code to be executed as the second element.
+
+The attacker then creates a pickled object that contains an instance of the `ExecuteCode` class and a list called `my_list`, and saves it to a file called `malicious_exec.pkl`. This file can be used to attack a system that unpickles arbitrary data from an untrusted source.
+
+The `mal_exec()` function simulates the scenario where the attacker's pickled object is loaded from the `malicious_exec.pkl` file and checks if the object is safe to unpickle by calling the `analysis.check_safety()` function. If the object is considered safe, the function prints "clean". Otherwise, it calls the `scan_pickle_file.scann()` function to scan the file for malicious data and removes any malicious code using the `cdr.check_safety()` function. Finally, the function checks again if the pickled object is safe to unpickle by calling the `analysis.check_safety()` function and prints "clean" if it is safe, or "not clean" if it still contains malicious data.
+
+To defend against this type of attack, it's important to avoid unpickling data from untrusted sources and to use serialization libraries that are designed with security in mind. Additionally, it's recommended to sanitize user input and validate data before serialization and deserialization.  
+**Attack Flow:  **
 ```
          ---------------------------------------------
         |                mal_exec()                     |
@@ -180,8 +187,23 @@ Attack Flow:
          ----------------------------             -------------------------------
 
 ```
+The attack flow consists of several steps:
 
-Disarm Flow:
+1. The attacker defines a class called `ExecuteCode` with a `__reduce__` method that executes arbitrary code when the class is pickled and unpickled.
+
+2. The attacker then creates a malicious pickle file `malicious_exec.pkl` containing an instance of `ExecuteCode` class and some other data (`my_list`), using the `pickle.dump` method.
+
+3. The attacker then runs the `mal_exec` function, which loads the pickle file, checks its safety using `analysis.check_safety`, and if it is deemed safe, prints "clean" and exits. However, if the pickle file is deemed unsafe, the function performs several actions to attempt to clean the file and make it safe:
+
+   - It calls `scan_pickle_file.scann` to scan the file for malicious data.
+   
+   - It calls `cdr.check_safety` to remove the malicious data from the file and check if the resulting file is safe.
+   
+   - It checks the safety of the file again using `analysis.check_safety` to confirm that the file is now safe.
+   
+4. If the pickle file is now safe, the function prints "clean" and the clean data left in the file. If the file is still deemed unsafe, the function prints "not clean".  
+
+**Disarm Flow:**
 
 ```
                             +----------------------+
