@@ -132,7 +132,7 @@ This is dangerous because it allows an attacker to execute arbitrary code on the
 
 8. `person_dictionary.pkl`: This pickle file contains a dictionary of personal information, but there is no malicious attack associated with it.  
 
-9. `safe_os.pkl`: This pickle file contains a safe `Os` object that, when unpickled, executes the code `"echo 'Hello, world!'"` using the `system()` function from the `os` module. This is not a malicious attack.  
+9. `safe_os.pkl`: This pickle file contains a safe `Os` object that, when unpickled, executes the code `"echo 'I execute code that runs on your computer'"` using the `system()` function from the `os` module. This is not a malicious attack.  
 
 10. `unsafe.pkl`: This pickle file contains a maliciously crafted `Pickled` object that, when unpickled, executes several lines of code, including `with open('/etc/passwd','r') as r: print(r.readlines())`, `with open('/etc/group','r') as r: print(r.readlines())`, and `os.system('echo Malicious code!')`. This can be used to read sensitive files and execute arbitrary code on the target machine.  
 The file `unsafe.pkl` is dangerous because it contains malicious code that can be executed when the file is loaded using the `pickle` module. 
@@ -217,7 +217,6 @@ To defend against this type of attack, it's important to avoid unpickling data f
 
 
  ```
-The attack flow consists of several steps:
 
 1. The attacker defines a class called `ExecuteCode` with a `__reduce__` method that executes arbitrary code when the class is pickled and unpickled.
 
@@ -235,23 +234,8 @@ The attack flow consists of several steps:
 
 **Disarm Flow:**
 
-Defense Flow for the "ExecuteCode" attack:
-
-1. The attacker defines the `ExecuteCode` class with the `__reduce__` method that calls `builtins.exec` with the arbitrary command as a string argument.
-2. The attacker serializes an instance of `ExecuteCode` class with some data to create the pickle.
-3. The attacker saves the pickle in a file named `malicious_exec.pkl`.
-4. The attacker calls the `mal_exec()` function.
-5. The function opens the `malicious_exec.pkl` file, reads the pickled data, and unpickles it into a Python object.
-6. The function runs the `check_safety` function of the `analysis` module to check if the unpickled object is safe.
-7. If the object is safe, the function prints "clean" and stops.
-8. If the object is not safe, the function calls the `scann` function of the `scan_pickle_file` module to remove any malicious code from the pickled object.
-9. The function then runs the `check_safety` function of the `cdr` module to verify that the pickled object is now safe.
-10. If the pickled object is safe, the function prints "clean" and stops.
-11. If the pickled object is not safe, the function prints "not clean" and stops.
 
 
-
-Disarm Flow::
 
 ```
                 +---------------+
@@ -294,10 +278,73 @@ Disarm Flow::
 
 ```
 
-
+1. The attacker defines the `ExecuteCode` class with the `__reduce__` method that calls `builtins.exec` with the arbitrary command as a string argument.
+2. The attacker serializes an instance of `ExecuteCode` class with some data to create the pickle.
+3. The attacker saves the pickle in a file named `malicious_exec.pkl`.
+4. The attacker calls the `mal_exec()` function.
+5. The function opens the `malicious_exec.pkl` file, reads the pickled data, and unpickles it into a Python object.
+6. The function runs the `check_safety` function of the `analysis` module to check if the unpickled object is safe.
+7. If the object is safe, the function prints "clean" and stops.
+8. If the object is not safe, the function calls the `scann` function of the `scan_pickle_file` module to remove any malicious code from the pickled object.
+9. The function then runs the `check_safety` function of the `cdr` module to verify that the pickled object is now safe.
+10. If the pickled object is safe, the function prints "clean" and stops.
+11. If the pickled object is not safe, the function prints "not clean" and stops.
 
 ## malicious_socket
-Attack Flow:
+**Attack Flow:**
+```
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    |  MalSocket object  |         2. Pickle        |  malicious_socket.pkl|
+    |                    | <-----------------------|                     |
+    '--------------------'                          '---------------------'
+             |                                                   |
+             |                                                   |
+             v                                                   v
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    |   malicious_socket |         4. Load          |   unpickled object   |
+    |      function      | <-----------------------|     from file        |
+    |                    |                          |                     |
+    '--------------------'                          '---------------------'
+             |                                                   |
+             |                      5. Check safety              |
+             v                                                   v
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    |   analysis.check   |       6. True: print      |    "Clean" message   |
+    |       safety       | <-----------------------|                     |
+    |                    |                          |                     |
+    '--------------------'                          '---------------------'
+             |                                                   |
+             |                      7. False: scan file           |
+             v                                                   v
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    |  scan_pickle_file  |                          |      cdr.check       |
+    |                    |                          |        safety       |
+    |        scann       |                          |                     |
+    |                    |                          |                     |
+    '--------------------'                          '---------------------'
+             |                                                   |
+             |                                                   |
+             v                                                   v
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    | cdr.check_safety() |                          |analysis.check_safety|
+    |                    |                          |                     |
+    '--------------------'                          '---------------------'
+             |                                                   |
+             |                                                   |
+             v                                                   v
+    .--------------------.                          .---------------------.
+    |                    |                          |                     |
+    |                    |                          |    "Clean" message   |
+    |     Not Clean      |                          |   and clean data     |
+    |     message        |                          |                     |
+    |                    |                          |                     |
+    '--------------------'                          '---------------------'
+```
 1. The attacker creates a malicious socket object using the MalSocket class and pickles it.
 2. The attacker saves the pickled object in a file named malicious_socket.pkl.
 3. The attacker runs the malicious_socket() function.
@@ -309,8 +356,35 @@ Attack Flow:
 9. The function runs analysis.check_safety() on the pickled object again to check if it is clean.
 10. If analysis.check_safety() returns True, the function prints "clean", displays the clean data, and exits.
 11. If analysis.check_safety() returns False, the function prints "not clean" and exits.
+```
+                            +------------------+
+                            |  Pickle File     |
+                            +------------------+
+                                      |
+                                      v
+           +--------------------------------------------------+
+           |             Check for Malicious Content           |
+           +--------------------------------------------------+
+                        |            |            |
+                        v            v            v
+        +----------------------+     |  +----------------------+
+        |  No Malicious Content|     |  |  Malicious Content    |
+        |  Found               |     |  |  Found                |
+        +----------------------+     |  +----------------------+
+                                     |
+                                     v
+                      +------------------------------------+
+                      |          Remove Malicious Content  |
+                      +------------------------------------+
+                                     |
+                                     v
+                              +---------------+
+                              |   Cleaned     |
+                              |   Pickle File |
+                              +---------------+
 
-Defense Flow:
+```
+:**Defense Flow::**
 1. The defender uses a combination of input validation and data sanitation to prevent malicious data from being pickled and saved in a file.
 2. The defender uses a whitelist to ensure that only valid objects can be pickled and loaded from a file.
 3. The defender scans all files for malicious content before loading them.
@@ -321,8 +395,10 @@ Defense Flow:
 
 
 ## malicious_eval  
-
+**Attack Flow:**
 The attack here involves pickling and dumping an instance of the `EvalCode` class into a file named `malicious_eval.pkl`. This class defines a `__reduce__` method which returns `eval` and the argument `("['a', 'b', 'c']",)` when called. This means that when the object is unpickled, the `eval` function will be called with the argument `("['a', 'b', 'c']",)`, which will execute arbitrary code in the context of the program.  
+
+
 ```
                                  +-----------------+
                                  |     Attacker    |
@@ -394,7 +470,7 @@ The attack here involves pickling and dumping an instance of the `EvalCode` clas
                | from malicious_eval.pkl|   |  Report and terminate   |
                +----------------------+   +-----------------------+
   ```  
-The flow of the attack is as follows:
+
 1. An instance of `EvalCode` class is created and pickled into a file named `malicious_eval.pkl`.
 2. The file is loaded and the pickled object is unpickled using `Pickled.load()` method.
 3. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object.
@@ -404,7 +480,8 @@ The flow of the attack is as follows:
 7. The file is loaded again and the pickled object is unpickled using `Pickled.load()` method.
 8. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object again.
 9. If the object is determined to be safe, the program exits.
-10. If the object is determined to be unsafe, the clean data left in the file is printed.  
+10. If the object is determined to be unsafe, the clean data left in the file is printed.   
+**Defense flow:**
 ```
                                  +----------------+
                                  |  Input: Pickle |
@@ -445,7 +522,7 @@ The flow of the disarm is as follows:
 5. If the object is determined to be unsafe, the clean data left in the file is printed.
 
 ## malicious_compile
-Attack Flow:  
+**Attack Flow:**  
 ```
                                       +------------------------+
                                       |        mal_compile      |
@@ -496,7 +573,6 @@ Attack Flow:
                                    +-------------------------+
 ```
 
-Flow of Attack:
 1. A `CompileCode` class is defined that contains a `__reduce__` method that returns a `compile` function with the string "print('I execute code that runs on your computer')" as its first argument.
 2. The `CompileCode` instance is pickled and saved to a file called `malicious_compile.pkl`.
 3. The `mal_compile` function loads the pickled object from the file, runs an initial safety check using the `analysis.check_safety` function, and prints the analysis result.
@@ -570,14 +646,14 @@ Flow of Attack:
                                                                          | Delete pickle file and exit |
                                                                          +----------------------------+
 ```
-Flow of Disarm:
+**Defense flow:**
 1. The `cdr.check_safety` function removes the malicious code from the pickled object and returns the cleaned object. 
 2. The cleaned pickled object is saved to the file and returned. 
 3. The `analysis.check_safety` function is called on the cleaned object, and if it returns true, indicating that the object is safe, then the disarm process is considered complete.
 
 
 ## malicious_Pickled
-Attack Flow:
+**Attack Flow:**
 ```
               +------------------------------------+
               |         Initial State               |
@@ -640,7 +716,7 @@ Attack Flow:
 
 
 
-Defense Flow:
+**Defense Flow:**
 ```
               +------------------------------------+
               |     Initial State (unsafe.pkl)     |
@@ -694,7 +770,7 @@ Defense Flow:
 7. If `analysis_result_2` is `True`, it means the data is considered clean after the removal of malicious content. The program prints "clean" and displays the remaining clean data in the file.
 8. If `analysis_result_2` is `False`, it means the data is still considered not clean. The program prints "not clean" and does not display the remaining data.
 ## malicious_open
-Attack flow:
+**Attack flow:**
 ```
   +-----------------------+
   |      Attack Flow       |
@@ -764,7 +840,7 @@ Attack flow:
 2. The attacker pickles the "OpenFile" object and saves it to a file called "malicious_open.pkl".
 3. The attacker distributes the "malicious_open.pkl" file to the target system.
 
-Defense flow:
+**Defense flow:**
 ```
   +-----------------------------+
   |         Disarm Flow         |
