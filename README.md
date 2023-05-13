@@ -1,11 +1,11 @@
 # Undergraduate-final-project-in-Cyber-Security
 ## Pickle file  
-Pickle File  
+<!-- Pickle File  
 +----------------+  
 |    Pickle Header       |  
 +----------------+  
 |      Pickled Data      |  
-+----------------+    
++----------------+     -->
 
 The pickle module in Python provides functions for serializing and deserializing Python objects into a binary format. The module defines two main classes: Pickler and Unpickler, which are used to serialize and deserialize Python objects, respectively.
 
@@ -143,4 +143,60 @@ The fourth line of code uses the `os.system()` method to execute the shell comma
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.  
 
 
+Sure, here's the Disarm Flow for the code:
 
+```
+                            +----------------------+
+                            |   Start Disarm Flow   |
+                            +----------------------+
+                                        |
+                                        |
+                                        v
+                         +------------------------------+
+                         | Check if analysis_result == 1 |
+                         +------------------------------+
+                                        |
+                                        |
+                        +-----------------+-----------------+
+                        |                 |                 |
+                        v                 v                 v
+            +-------------------+ +-------------------+ +-------------------+
+            |   Clean and Exit  | |   Scanning Check  | |  CDR Check & Fix  |
+            +-------------------+ +-------------------+ +-------------------+
+            (analysis_result_2=1) (analysis_result_2=0) (analysis_result_2=0)
+                        |                 |                 |
+                        v                 v                 v
+            +-------------------+ +-------------------+ +-------------------+
+            |                   | |                   | |                   |
+            v                   v v                   v v                   v
+    +----------------+  +----------------+  +----------------+  +----------------+
+    |  Print Cleaned  |  |  Print Cleaned  |  | Print Not Clean |  | Print Not Clean |
+    |    Data Left    |  |    Data Left    |  |  and File Fixed |  |   and Exit...   |
+    +----------------+  +----------------+  +----------------+  +----------------+
+   (analysis_result_2=1) (analysis_result_2=0) (analysis_result_2=0)          |
+                                        |                                    |
+                                        v                                    |
+                         +------------------------------+                    |
+                         |     End Disarm Flow         |                    |
+                         +------------------------------+                    |
+                                        |                                    |
+                                        v                                    |
+                            +----------------------+                          |
+                            |   End of Function     |                          |
+                            +----------------------+                          |
+                                        |                                       |
+                                        v                                       |
+                             +---------------------------------+               |
+                             |   End of Control Flow Graph        |               |
+                             +---------------------------------+               |
+```
+
+In the Disarm Flow, we start by checking if the `analysis_result` is equal to 1, indicating that the data in the pickled object is safe. If `analysis_result` is 1, we can exit the function and print the cleaned data if needed.
+
+If `analysis_result` is not 1, we move on to the next step, which is to check if the pickled object contains malicious data using the `scann()` function. If `scann()` finds malicious data, the function exits and prints that the data is not clean and the file is not fixed. If `scann()` does not find any malicious data, we move on to the next step.
+
+The next step is to perform a CDR check and fix any remaining malicious data in the pickled object. If the CDR check finds and fixes any malicious data, we move on to the next step. If the CDR check does not find any malicious data, the function exits and prints that the data is not clean and the file is not fixed.
+
+Finally, we perform the `analysis.check_safety()` function on the pickled object again and check if `analysis_result_2` is equal to 1. If `analysis_result_2` is 1, we exit the function and print the cleaned data if needed. If `analysis_result_2` is not 1, the function exits and prints that the data is not clean and the file is not fixed.
+
+At the end of the Disarm Flow, we reach the end of the function and the end of the Control Flow Graph.
