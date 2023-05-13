@@ -140,10 +140,47 @@ The code creates a list of student names and then pickles it using the `pickle.d
 The first two lines of malicious code open and read the `/etc/passwd` and `/etc/group` files, which can be a serious security risk as these files contain sensitive information about users and groups on the system. 
 The third line of code imports a module named `module` and prints the string "malicious". This may seem harmless, but importing unknown modules can be a security risk as the module could contain malicious code. 
 The fourth line of code uses the `os.system()` method to execute the shell command "echo Malicious code!", which can be a serious security risk as it allows arbitrary code execution on the system. 
-When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.  
+When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
+
+## mal_exec
+Attack Flow:
+         ---------------------------------------------
+        |                mal_exec()                     |
+         ---------------------------------------------
+                  |
+                  v
+         ---------------------------------------------
+        |      Load pickled data from file              |
+         ---------------------------------------------
+                  |
+                  v
+         ---------------------------------------------
+        |      Check if the pickled object is safe       |
+         ---------------------------------------------
+                  |
+                  v
+        ---------------------                    ------------------
+       |  If analysis_result is True              |  If analysis_result is False   |
+        ---------------------                    ------------------
+                  |                                             |
+                  v                                             v
+         ----------------------------             -------------------------------
+        |         Print "clean"       |            |       Scan and remove malicious data       |
+         ----------------------------             -------------------------------
+                  |                                             |
+                  v                                             v
+         ----------------------------             -------------------------------
+        |    Load pickled data again   |            |  Check if the pickled object is safe again |
+         ----------------------------             -------------------------------
+                  |                                             |
+                  v                                             v
+         ----------------------------             -------------------------------
+        |        Print "clean"        |            |       Print "not clean"       |
+         ----------------------------             -------------------------------
 
 
-Sure, here's the Disarm Flow for the code:
+
+Disarm Flow:
 
 ```
                             +----------------------+
