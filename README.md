@@ -693,3 +693,122 @@ Defense Flow:
    - The `analysis.check_safety()` function is called again on the reloaded pickled data, and the result is stored in `analysis_result_2`.
 7. If `analysis_result_2` is `True`, it means the data is considered clean after the removal of malicious content. The program prints "clean" and displays the remaining clean data in the file.
 8. If `analysis_result_2` is `False`, it means the data is still considered not clean. The program prints "not clean" and does not display the remaining data.
+## malicious_open
+Attack flow:
+```
+  +-----------------------+
+  |      Attack Flow       |
+  +-----------------------+
+              |
+              V
+   +----------------------+
+   |    Malicious Object   |
+   +----------------------+
+              |
+              V
++------------------------------------+
+|   Dump Malicious Object to File    |
++------------------------------------+
+              |
+              V
+   +----------------------+
+   |  Load Pickled Object  |
+   +----------------------+
+              |
+              V
+   +----------------------+
+   |   Check Analysis 1    |
+   +----------------------+
+       |         |
+      /           \
+     /             \
+    V               V
++----------+    +-----------+
+| Clean    |    | Not Clean |
++----------+    +-----------+
+     |               |
+     V               V
++------------------------+
+|  Scan for Malicious Data|
++------------------------+
+     |               |
+     V               V
++--------------------------+
+| Check Controlled Data Run |
++--------------------------+
+     |               |
+     V               V
++----------------------+
+|   Check Analysis 2    |
++----------------------+
+       |         |
+      /           \
+     /             \
+    V               V
++----------+    +-----------+
+| Clean    |    | Not Clean |
++----------+    +-----------+
+     |               |
+     V               V
++----------------------+
+|   Return Clean Data   |
++----------------------+
+     |               |
+     V               V
++----------------------+
+|  Print Clean Data     |
++----------------------+
+
+```
+1. The attacker creates a class called "OpenFile" that contains a malicious payload to open the "/etc/passwd" file.
+2. The attacker pickles the "OpenFile" object and saves it to a file called "malicious_open.pkl".
+3. The attacker distributes the "malicious_open.pkl" file to the target system.
+
+Defense flow:
+```
+  +-----------------------------+
+  |         Disarm Flow         |
+  +-----------------------------+
+                  |
+                  V
+        +----------------+
+        | Check analysis |
+        +----------------+
+                  |
+                  V
+        +----------------+
+        |     Cleanup     |
+        +----------------+
+                  |
+                  V
++---------------------------------+
+| Check CDR (Controlled Data Run) |
++---------------------------------+
+                  |
+                  V
+         +--------------+
+         | Check analysis|
+         +--------------+
+                  |
+                  V
+        +-----------------+
+        | Return clean data|
+        +-----------------+
+                  |
+                  V
+        +-----------------+
+        | Print clean data|
+        +-----------------+
+
+
+```
+1. The "mal_open()" function is called.
+2. The function loads the pickled data from the "malicious_open.pkl" file and unpickles it into an object.
+3. The "check_safety()" function from the "analysis" module is called to analyze the object and determine if it is safe.
+4. If the object is determined to be safe, the program proceeds as usual and prints "clean".
+5. If the object is determined to be malicious, the "scann()" function from the "scan_pickle_file" module is called to scan the file for malware.
+6. The "check_safety()" function from the "cdr" module is called to check if the object is safe after removing the malicious payload.
+7. If the object is determined to be safe, the program proceeds and prints "clean" and the clean data is printed.
+8. If the object is still determined to be malicious, the program prints "not clean".
+
+
