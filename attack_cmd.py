@@ -2,96 +2,13 @@ import builtins
 import os
 import pickle
 import socket
-import sys
-import unittest
 from unittest.mock import patch
 import fickling.analysis as analysis
 from fickling.pickle import Pickled
-import scan_pickle_file
-import cdr
-
-import unittest
-from unittest.mock import patch
-import fickling.analysis as analysis
-from fickling.pickle import Pickled
-# def setUpClass():
-        # class ExecuteCode(object):
-            # def __reduce__(self):
-                # return (builtins.exec, ("import os; os.system('echo I am executing arbitrary code!')",))
-        # class EvalCode(object):
-        #     def __reduce__(self):
-        #         return (eval, ("['a', 'b', 'c']",))
-        # class CompileCode(object):
-        #     def __reduce__(self):
-        #         return (compile, ("print('I execute code that runs on your computer')", "<string>", "exec"),)
-        # class OpenFile(object):
-        #     def __reduce__(self):
-        #         return (builtins.exec, ("f = open('/etc/passwd', 'r'); print(f.read()); f.close()",))
-        # class Os(object):
-        #     def __reduce__(self):
-        #         import os
-        #         return (os.system, ("echo 'I execute code that runs on your computer'",))
-        # class MalSocket(object):
-        #     def __reduce__(self):
-        #         return socket.socket, (socket.AF_INET, socket.SOCK_STREAM)
-        #
-        # if os.path.exists(
-        #         'malicious_socket.pkl'):
-        #     os.remove(
-        #         'malicious_socket.pkl')
-        # with open('malicious_socket.pkl', 'wb') as f:
-        #     pickle.dump(MalSocket(), f)
-
-        # my_list = ['a', 'b', 'c']
-        # with open('malicious_exec.pkl', 'wb') as f:
-        #     pickle.dump((ExecuteCode(), my_list), f)
-
-        # student_names = ['Alice','Bob','Elena','Jane','Kyle']
-        # with open('student_file.pkl', 'wb') as f:  # open a text file
-        #     pickle.dump(student_names, f) # serialize the list
-
-        # with open('malicious_eval.pkl', 'wb') as f:
-        #     pickle.dump(EvalCode(), f)
-        #
-        # with open(
-        #         'malicious_compile.pkl', 'wb') as f:
-        #     pickle.dump(CompileCode(), f)
-
-        # with open('malicious_open.pkl', 'wb') as f:
-        #     pickle.dump(OpenFile(), f)
-
-        # # create a list to pickle
-        # fruits = ['apple', 'banana', 'orange']
-        # # open a file in write binary mode to pickle
-        # with open('fruits.pkl', 'wb') as f:
-        #     # pickle the list
-        #     pickle.dump(fruits, f)
-
-        # # create a dictionary to pickle
-        # person = {'name': 'John', 'age': 30, 'city': 'New York'}
-        # # open a file in write binary mode to pickle
-        # with open(
-        #         'person_dictionary.pkl', 'wb') as f:
-        #     # pickle the dictionary
-        #     pickle.dump(person, f)
-        # with open('safe_os.pkl', 'wb') as f:
-        #     pickle.dump(Os(), f)
-
-        # # Create a malicious pickle
-        # student_names = ['Alice','Bob','Elena','Jane','Kyle']
-        # pickle_bin = pickle.dumps(student_names)
-        # p = Pickled.load(pickle_bin)
-        # p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())")
-        # p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())")
-        # p.insert_python_exec("import module print('malicious')")
-        # p.insert_python_exec("import os  os.system('echo Malicious code!')")
-        #
-        # with open('unsafe.pkl', 'wb') as f:
-        #     p.dump(f)
-
-
+from termcolor import colored
 def mal_exec():
         print("--------------------------mal_exec----------------------------------")
+        print(colored("Creates a malicious pickle file...\n", "red"))
         class ExecuteCode(object):
             def __reduce__(self):
                 return (builtins.exec, ("import os; os.system('echo I am executing arbitrary code!')",))
@@ -114,7 +31,8 @@ def mal_exec():
 
 def mal_Pickled():
         print("-----------------------mal_Pickled-------------------------------------")
-         # Create a malicious pickle
+        print(colored("Creates a malicious pickle file...\n", "red"))
+        # Create a malicious pickle
         student_names = ['Alice','Bob','Elena','Jane','Kyle']
         pickle_bin = pickle.dumps(student_names)
         p = Pickled.load(pickle_bin)
@@ -142,6 +60,7 @@ def mal_Pickled():
 
 def mal_compile():
         print("-----------------------mal_compile-------------------------------------")
+        print(colored("Creates a malicious pickle file...\n", "red"))
         class CompileCode(object):
             def __reduce__(self):
                 return (compile, ("print('I execute code that runs on your computer')", "<string>", "exec"),)
@@ -164,6 +83,7 @@ def mal_compile():
 
 def mal_open():
         print("-------------------------mal_open-----------------------------------")
+        print(colored("Creates a malicious pickle file...\n", "red"))
         class OpenFile(object):
             def __reduce__(self):
                 return (builtins.exec, ("f = open('/etc/passwd', 'r'); print(f.read()); f.close()",))
@@ -187,6 +107,7 @@ def mal_open():
 
 def mal_eval():
         print("--------------------------malicious_eval----------------------------------")
+        print(colored("Creates a malicious pickle file...\n", "red"))
         class EvalCode(object):
             def __reduce__(self):
                 return (eval, ("['a', 'b', 'c']",))
@@ -207,10 +128,12 @@ def mal_eval():
 
 
 def malicious_socket():
+        print("--------------------------malicious_socket----------------------------------")
+
         class MalSocket(object):
             def __reduce__(self):
                  return socket.socket, (socket.AF_INET, socket.SOCK_STREAM)
-        print("--------------------------malicious_socket----------------------------------")
+        print(colored("Creates a malicious pickle file...\n", "red"))
         if os.path.exists(
                 'malicious_socket.pkl'):
             os.remove(
@@ -233,6 +156,7 @@ def malicious_socket():
 
 def safe_student_file():
         print("--------------------------safe-student_file----------------------------------")
+        print(colored("Creates a new pickle file...\n", "green"))
         student_names = ['Alice','Bob','Elena','Jane','Kyle']
         with open('student_file.pkl', 'wb') as f:  # open a text file
             pickle.dump(student_names, f) # serialize the list
@@ -252,6 +176,7 @@ def safe_student_file():
 
 def safe_fruits():
             print("--------------------------safe-fruits----------------------------------")
+            print(colored("Creates a new pickle file...\n", "green"))
             # create a list to pickle
             fruits = ['apple', 'banana', 'orange']
             # open a file in write binary mode to pickle
@@ -273,6 +198,7 @@ def safe_fruits():
 
 def safe_person_dictionary():
         print("--------------------------safe-person_dictionary----------------------------------")
+        print(colored("Creates a new pickle file...\n", "green"))
         # create a dictionary to pickle
         person = {'name': 'John', 'age': 30, 'city': 'New York'}
         # open a file in write binary mode to pickle
@@ -295,6 +221,7 @@ def safe_person_dictionary():
 
 def safe_os():
         print("--------------------------safe_os----------------------------------")
+        print(colored("Creates a new pickle file...\n", "green"))
         class Os(object):
             def __reduce__(self):
                 import os
