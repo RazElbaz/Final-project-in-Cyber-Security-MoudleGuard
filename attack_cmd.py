@@ -1,3 +1,4 @@
+import argparse
 import builtins
 import os
 import pickle
@@ -256,32 +257,31 @@ def safe_os():
 # safe_os()
 
 # python attack_cmd.py [attack_type]
+# Define the available attack types and their corresponding functions
+attack_types = {
+    "mal_exec": mal_exec,
+    "mal_Pickled": mal_Pickled,
+    "mal_compile": mal_compile,
+    "mal_open": mal_open,
+    "mal_eval": mal_eval,
+    "malicious_socket": malicious_socket,
+    "safe_student_file": safe_student_file,
+    "safe_fruits": safe_fruits,
+    "safe_person_dictionary": safe_person_dictionary,
+    "safe_os": safe_os
+}
+
+def main():
+    parser = argparse.ArgumentParser(description="Attack tool with Python's argparse")
+    parser.add_argument("attack_type", choices=attack_types.keys(), help="Type of attack to execute")
+
+    args = parser.parse_args()
+
+    attack_type = args.attack_type
+    attack_func = attack_types[attack_type]
+
+
+    attack_func()
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python attack_cmd.py [attack_type]")
-        sys.exit(1)
-
-    attack_type = sys.argv[1]
-
-    if attack_type == "mal_exec":
-        mal_exec()
-    elif attack_type == "mal_Pickled":
-        mal_Pickled()
-    elif attack_type == "mal_compile":
-        mal_compile()
-    elif attack_type == "mal_open":
-        mal_open()
-    elif attack_type == "mal_eval":
-        mal_eval()
-    elif attack_type == "malicious_socket":
-        malicious_socket()
-    elif attack_type == "safe_student_file":
-        safe_student_file()
-    elif attack_type == "safe_fruits":
-        safe_fruits()
-    elif attack_type == "safe_person_dictionary":
-        safe_person_dictionary()
-    elif attack_type == "safe_os":
-        safe_os()
-    else:
-        print("Invalid attack type.")
+    main()
