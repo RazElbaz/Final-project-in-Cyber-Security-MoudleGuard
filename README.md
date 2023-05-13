@@ -495,59 +495,6 @@ Attack Flow:
                                    |  Otherwise, print error  |
                                    +-------------------------+
 ```
-```
-                              |================|              |================|
-                              |                |    pickle    |                |
-                              |    Compile     | <=========== |  malicious     |
-                              |     Code       |              |     file       |
-                              |________________|              |________________|
-                                          ^
-                                          |
-                                         / \
-                                        /   \
-                      Analysis: Check if safe  Not Safe
-                ___________________________________________________
-               |                      |                              |
-               |                      |                              |
-        Clean, continue         Not clean                   Scanning file
-                                         \                      /
-                                          \                    /
-                                           \__________________/
-                                          cdr.check_safety()
-                                          /              \
-                                         /                \
-                         Clean, continue               Not clean
-                                |                            |
-                                |                            |
-                ______________________________________________________
-               |                        |                                |
-               |                        |                                |
-          Clean, continue         Scanning file                  Scanning file
-                                         \                        /
-                                          \                      /
-                                           \____________________/
-                                          Analysis: Check if safe
-                                          /              \
-                                         /                \
-                          Clean, continue              Not clean
-                                |                            |
-                                |                            |
-                _____________________________________________________
-               |                        |                                |
-               |                        |                                |
-          Clean, continue         Scanning file                  Scanning file
-                                         \                        /
-                                          \                      /
-                                           \____________________/
-                                          Analysis: Check if safe
-                                          /              \
-                                         /                \
-                          Clean, continue              Not clean
-                                |                            |
-                                |                            |
-                               END                          END
-
-```
 
 Flow of Attack:
 1. A `CompileCode` class is defined that contains a `__reduce__` method that returns a `compile` function with the string "print('I execute code that runs on your computer')" as its first argument.
@@ -572,31 +519,31 @@ Flow of Attack:
                    +--------------------v--+                                +---------------------+
                    | If function is clean |                                | If function is dirty |
                    +--------------------+                                +---------------------+
-                                                           |                                |
-                                                           |                                |
-                                           /---------------+---------------\                |
-                                          /                                 \               |
+                                                           |                               |
+                                                           |                               |
+                                           /---------------+---------------\               |
+                                          /                                 \              |
                   +--------------------v--+                                |               |
                   | Check pickle contents |                                |               |
-                  +---------------------+                                |               |
-                                                           |                |               |
-                                                           |                |               |
+                  +---------------------+                                |                 |
+                                                           |                |              |
+                                                           |                |              |
                                            /---------------+---------------\               |
                                           /                                 \              |
                  +---------------------v--+                                 |              |
                  | Check CDR for threats  |                                 |              |
-                 +---------------------+                                 |              |
+                 +---------------------+                                 |                 |
                                                            |                |              |
                                                            |                |              |
-                                           /---------------+---------------\              |
-                                          /                                 \             |
-                        +---------------v---+                                 |             |
-                        | Check pickle again|                                 |             |
-                        +---------------+---+                                 |             |
-                                           |                                     |             |
-                                           |                                     |             |
-                        /------------------+                                     |             |
-                       /                                                         |             |
+                                           /---------------+---------------\               |
+                                          /                                 \              |
+                        +---------------v---+                                 |            |
+                        | Check pickle again|                                 |            |
+                        +---------------+---+                                 |            |
+                                           |                                     |         |
+                                           |                                     |         |
+                        /------------------+                                     |         |
+                       /                                                         |           |
           +---------v----------+                                                |             |
           | If pickle is clean |                                                |             |
           +--------------------+                                                |             |
@@ -627,3 +574,122 @@ Flow of Disarm:
 1. The `cdr.check_safety` function removes the malicious code from the pickled object and returns the cleaned object. 
 2. The cleaned pickled object is saved to the file and returned. 
 3. The `analysis.check_safety` function is called on the cleaned object, and if it returns true, indicating that the object is safe, then the disarm process is considered complete.
+
+
+## malicious_Pickled
+Attack Flow:
+```
+              +------------------------------------+
+              |         Initial State               |
+              +------------------------------------+
+                            |
+                            V
+            +----------------------------------+
+            |      pickle.dumps(student_names) |
+            +----------------------------------+
+                            |
+                            V
+         +----------------------------------+
+         |       Pickled.load(pickle_bin)  |
+         +----------------------------------+
+                            |
+                            V
+   +----------------------------------------------------------------------------------+
+   |  p.insert_python_exec("with open('/etc/passwd','r') as r: print(r.readlines())") |
+   +----------------------------------------------------------------------------------+
+                            |
+                            V
+   +--------------------------------------------------------------------------------+
+   |  p.insert_python_exec("with open('/etc/group','r') as r: print(r.readlines())") |
+   +--------------------------------------------------------------------------------+
+                            |
+                            V
+       +----------------------------------------------------------+
+       |  p.insert_python_exec("import module print('malicious')") |
+       +----------------------------------------------------------+
+                            |
+                            V
+   +-----------------------------------------------------------------------+
+   |  p.insert_python_exec("import os  os.system('echo Malicious code!')") |
+   +-----------------------------------------------------------------------+
+                            |
+                            V
+     +-------------------------------------------------+
+     |       p.dump(f) (Writing to unsafe.pkl file)    |
+     +-------------------------------------------------+
+                            |
+                            V
+             +-------------------------------+
+             |     End of Attack Flow       |
+             +-------------------------------+
+
+
+```
+
+
+1. Creates a list of student names.
+2. Pickles the list and stores it in a file named "unsafe.pkl".
+3. Uses the Pickled.load() method to load the pickled data from the file.
+4. Calls the insert_python_exec() method of the Pickled object to insert the following malicious code snippets:
+   * with open('/etc/passwd','r') as r: print(r.readlines())
+   * with open('/etc/group','r') as r: print(r.readlines())
+   * import module print('malicious')
+   * import os  os.system('echo Malicious code!')
+5. Dumps the modified Pickled object to the same file.
+
+
+
+
+Defense Flow:
+```
+              +------------------------------------+
+              |     Initial State (unsafe.pkl)     |
+              +------------------------------------+
+                            |
+                            V
+   +------------------------------------------------------+
+   |       pickled_data = f.read() (Read unsafe.pkl file)   |
+   +------------------------------------------------------+
+                            |
+                            V
++------------------------------------------------------+
+| pickled_obj = Pickled.load(pickled_data) (Load pickled object) |
++------------------------------------------------------+
+                            |
+                            V
+    +-----------------------------------------------------+
+    | analysis_result = analysis.check_safety(pickled_obj) |
+    +-----------------------------------------------------+
+                            |
+                            V
+                +-----------------------+
+                |   If analysis_result  |
+                |       is True          |
+                +-----------------------+
+                            |
+                            V
+                      Clean Data
+                            |
+                            V
+             +-------------------------------+
+             |   End of Disarm Flow         |
+             +-------------------------------+
+
+
+```
+
+
+
+
+1. The `mal_Pickled()` function is called.
+2. The file 'unsafe.pkl' is read and its contents are stored in the `pickled_data` variable.
+3. The `Pickled.load()` method is used to load the pickled data into a `pickled_obj` variable.
+4. The `analysis.check_safety()` function is called to perform an analysis on the loaded pickled object and the result is stored in the `analysis_result` variable.
+5. If the `analysis_result` is `True`, it means the data is considered clean, and the program prints "clean".
+6. If the `analysis_result` is `False`, it means the data is considered not clean. The program proceeds to perform the following steps:
+   - The `scan_pickle_file.scann()` function is called to scan the 'unsafe.pkl' file for malicious data.
+   - The program prints "Now removing the malicious data...."
+   - The `cdr.check_safety()` function is called to check the safety of the `pickled_obj` and the filename.
+   - The `analysis.check_safety()` function is called again on the reloaded pickled data, and the result is stored in `analysis_result_2`.
+7. If `analysis_result_2` is `True`, it means the data is considered clean after the removal of malicious content. The program prints "clean" and displays the remaining clean data in the file.
+8. If `analysis_result_2` is `False`, it means the data is still considered not clean. The program prints "not clean" and does not display the remaining data.
