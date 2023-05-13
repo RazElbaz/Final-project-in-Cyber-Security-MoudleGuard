@@ -1,5 +1,12 @@
 # Undergraduate-final-project-in-Cyber-Security
 ## Pickle file
+Pickle File
++---------------------+
+|    Pickle Header    |
++---------------------+
+|      Pickled Data   |
++---------------------+
+
 The pickle module in Python provides functions for serializing and deserializing Python objects into a binary format. The module defines two main classes: Pickler and Unpickler, which are used to serialize and deserialize Python objects, respectively.
 
 The Pickler class is used to convert a Python object into a byte stream, while the Unpickler class is used to convert a byte stream back into a Python object.
