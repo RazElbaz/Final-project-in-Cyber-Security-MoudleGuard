@@ -368,8 +368,39 @@ The flow of the attack is as follows:
 7. The file is loaded again and the pickled object is unpickled using `Pickled.load()` method.
 8. The `check_safety()` method from the `analysis` module is called to check the safety of the unpickled object again.
 9. If the object is determined to be safe, the program exits.
-10. If the object is determined to be unsafe, the clean data left in the file is printed.
-
+10. If the object is determined to be unsafe, the clean data left in the file is printed.  
+```
+                                 +----------------+
+                                 |  Input: Pickle |
+                                 +--------+-------+
+                                          |
+                                 +--------v-------+
+                                 | Check Safety   |
+                                 +--------+-------+
+                                          |
+                                 +--------v-------+
+                                 |  Is it safe?   |
+                                 +--------+-------+
+                                          |
+                        +-------------+   |   +-------------+
+                        |             |   |   |             |
+                +-------v-------+ +---+---v-----+ +-------v-------+
+                |  Clean Data   | |  Malicious  | |  Remove Mal.  |
+                |  Left in File | |  Detected?  | |  Data         |
+                +---------------+ +------------+ +---------------+
+                                          |
+                                 +--------v-------+
+                                 |  Check Safety  |
+                                 +--------+-------+
+                                          |
+                                 +--------v-------+
+                                 |  Is it safe?   |
+                                 +--------+-------+
+                                          |
+                                 +----------------+
+                                 | Output: Results |
+                                 +----------------+
+```  
 The flow of the disarm is as follows:
 1. The `check_safety()` method from the `cdr` module is called to clean the object of malicious code.
 2. The file is loaded again and the pickled object is unpickled using `Pickled.load()` method.
