@@ -143,7 +143,8 @@ The fourth line of code uses the `os.system()` method to execute the shell comma
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
 
 ## mal_exec
-Attack Flow:
+Attack Flow:  
+```
          ---------------------------------------------
         |                mal_exec()                     |
          ---------------------------------------------
@@ -178,7 +179,7 @@ Attack Flow:
         |        Print "clean"        |            |       Print "not clean"       |
          ----------------------------             -------------------------------
 
-
+```
 
 Disarm Flow:
 
