@@ -2,6 +2,7 @@ import builtins
 import os
 import pickle
 import socket
+import sys
 from unittest.mock import patch
 import fickling.analysis as analysis
 from fickling.pickle import Pickled
@@ -242,46 +243,45 @@ def safe_os():
         else:
             print("not clean")
 
-# setUpClass()
-mal_exec()
-mal_Pickled()
-mal_compile()
-mal_open()
-mal_eval()
-malicious_socket()
-safe_student_file()
-safe_fruits()
-safe_person_dictionary()
-safe_os()
 
-# python attack_pickle.py [attack_type]
-# if __name__ == "__main__":
-#     setUpClass()
-#     if len(sys.argv) != 2:
-#         print("Usage: python attack_cmd.py [attack_type]")
-#         sys.exit(1)
-#
-#     attack_type = sys.argv[1]
-#
-#     if attack_type == "mal_exec":
-#         mal_exec()
-#     elif attack_type == "mal_Pickled":
-#         mal_Pickled()
-#     elif attack_type == "mal_compile":
-#         mal_compile()
-#     elif attack_type == "mal_open":
-#         mal_open()
-#     elif attack_type == "mal_eval":
-#         mal_eval()
-#     elif attack_type == "malicious_socket":
-#         malicious_socket()
-#     elif attack_type == "safe_student_file":
-#         safe_student_file()
-#     elif attack_type == "safe_fruits":
-#         safe_fruits()
-#     elif attack_type == "safe_person_dictionary":
-#         safe_person_dictionary()
-#     elif attack_type == "safe_os":
-#         safe_os()
-#     else:
-#         print("Invalid attack type.")
+# mal_exec()
+# mal_Pickled()
+# mal_compile()
+# mal_open()
+# mal_eval()
+# malicious_socket()
+# safe_student_file()
+# safe_fruits()
+# safe_person_dictionary()
+# safe_os()
+
+# python attack_cmd.py [attack_type]
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python attack_cmd.py [attack_type]")
+        sys.exit(1)
+
+    attack_type = sys.argv[1]
+
+    if attack_type == "mal_exec":
+        mal_exec()
+    elif attack_type == "mal_Pickled":
+        mal_Pickled()
+    elif attack_type == "mal_compile":
+        mal_compile()
+    elif attack_type == "mal_open":
+        mal_open()
+    elif attack_type == "mal_eval":
+        mal_eval()
+    elif attack_type == "malicious_socket":
+        malicious_socket()
+    elif attack_type == "safe_student_file":
+        safe_student_file()
+    elif attack_type == "safe_fruits":
+        safe_fruits()
+    elif attack_type == "safe_person_dictionary":
+        safe_person_dictionary()
+    elif attack_type == "safe_os":
+        safe_os()
+    else:
+        print("Invalid attack type.")
