@@ -287,7 +287,7 @@ Defense Flow:
 ## malicious_eval  
 
 The attack here involves pickling and dumping an instance of the `EvalCode` class into a file named `malicious_eval.pkl`. This class defines a `__reduce__` method which returns `eval` and the argument `("['a', 'b', 'c']",)` when called. This means that when the object is unpickled, the `eval` function will be called with the argument `("['a', 'b', 'c']",)`, which will execute arbitrary code in the context of the program.  
-`
+```
                                  +-----------------+
                                  |     Attacker    |
                                  +-----------------+
@@ -357,7 +357,7 @@ The attack here involves pickling and dumping an instance of the `EvalCode` clas
                | Load clean object    |   |   Object still not safe |
                | from malicious_eval.pkl|   |  Report and terminate   |
                +----------------------+   +-----------------------+
-  `
+  ```  
 The flow of the attack is as follows:
 1. An instance of `EvalCode` class is created and pickled into a file named `malicious_eval.pkl`.
 2. The file is loaded and the pickled object is unpickled using `Pickled.load()` method.
