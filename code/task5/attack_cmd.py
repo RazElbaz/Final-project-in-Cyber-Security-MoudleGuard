@@ -274,6 +274,7 @@ attack_types = {
 def main():
     parser = argparse.ArgumentParser(description="Attack tool with Python's argparse")
     parser.add_argument("attack_type", choices=attack_types.keys(), help="Type of attack to execute")
+    parser.add_argument("--file", help="Path to the file to be used in the attack")
 
     args = parser.parse_args()
 
@@ -285,3 +286,42 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# import sys
+# import argparse
+#
+# def setUpClass():
+#     # Set up necessary configurations or resources for the attacks
+#     pass
+#
+# def mal_exec(file_path):
+#     # Implement mal_exec attack using the provided file
+#     print(f"Executing mal_exec attack using file: {file_path}")
+#     pass
+#
+# # Define the available attack types and their corresponding functions
+# attack_types = {
+#     "mal_exec": mal_exec,
+#     # Add more attack types and their corresponding functions here
+# }
+#
+# def main():
+#     parser = argparse.ArgumentParser(description="Attack tool with Python's argparse")
+#     parser.add_argument("attack_type", choices=attack_types.keys(), help="Type of attack to execute")
+#     parser.add_argument("--file", help="Path to the file to be used in the attack")
+#
+#     args = parser.parse_args()
+#
+#     attack_type = args.attack_type
+#     attack_func = attack_types[attack_type]
+#
+#     setUpClass()
+#
+#     if attack_type == "mal_exec":
+#         file_path = args.file
+#         if not file_path:
+#             parser.error("The --file option is required for the mal_exec attack type.")
+#         attack_func(file_path)
+#
+# if __name__ == "__main__":
+#     main()
