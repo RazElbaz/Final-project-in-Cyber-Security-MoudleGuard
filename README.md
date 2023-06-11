@@ -30,13 +30,13 @@ The sender.py and receiverpy programs send a pickle file from the sender to the 
 
 In the program `Pickle_Arbitrary_Code_Execution.py` there is a display of information output (can also be applied in sending with socket) such as passwords from the computer, groups, hosts and PAM.
 
-In the program maliciousPickle.py there is a creation of a normal pickle file into which data was pushed and if we execute the following commands: cat payload.pkl, hexyl payload.pkl we can see the data that was pushed
+In the program maliciousPickle.py there is a creation of a normal pickle file into which data was pushed and if we execute the following commands: cat payload.pkl, hexyl `payload.pkl` we can see the data that was pushed
 ## Task 2 
 `maliciousPickle.py`
 Develop a code that statically reads the pickle file and scans the active parts in it.
 ## Task 3
 Removing malware from a pickle file
-MaliciousExtraction.py
+`MaliciousExtraction.py`
 
 ## Task 4
 The task is to modify the pickle package by removing parts that could be used for malicious attacks, add a new capability called cdr.py, and then test that this change works by running parse and cdr, and verifying that parse returns "clean" after cdr is called. I need to remove the parts that can cause an attack because a pickle has parts that make it explosive
@@ -102,7 +102,7 @@ The Pickler class is used to convert a Python object into a byte stream, while t
 
 
 ## How to Run:
-Go to code/task5
+Go to code/task5  
 To call the code, you can run it from the command line using the following command:
 
 ```
