@@ -10,6 +10,7 @@
     <td align="center"><a href="https://github.com/RazElbaz"><img src="https://avatars.githubusercontent.com/u/93310416?v=4" width="100px;" alt="Raz Elbaz"/><br /><sub><b>Raz Elbaz</b></sub></a><br /><a href="https://github.com/RazElbaz" title="Code">💻</a> <br /> </td>
   </tr>
 </table>
+
 ## The instructors of the project
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -17,8 +18,8 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><img src="(https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg)" width="100px;"/><br /><sub><b>Dr. Ran Dubin</b></sub></a><br /> </td>
-    <td align="center"><img src="(https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg)" width="100px;" /><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
+    <td align="center"><img src="https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg" width="100px;"/><br /><sub><b>Dr. Ran Dubin</b></sub></a><br /> </td>
+    <td align="center"><img src="https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg" width="100px;" /><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
 
   </tr>
 </table>
