@@ -44,7 +44,7 @@ To achieve protection against ransomware attacks, our project focuses on the fol
 ## Solution Description:
 The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
 ## Poster
-![poster](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/poster.png.png)
+![poster](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/images/poster.png.png)
 # Code: 
 The project includes several scripts:
 ## Task 1
@@ -242,7 +242,7 @@ The third line of code imports a module named `module` and prints the string "ma
 The fourth line of code uses the `os.system()` method to execute the shell command "echo Malicious code!", which can be a serious security risk as it allows arbitrary code execution on the system. 
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
 ## In general for all attacks:
-![cdr](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/cdr.png)
+![cdr](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/images/cdr.png)
 ## malicious_exec
 This code shows an example of a subattack that exploits Python's pickle module to execute arbitrary code. The `ExecuteCode` class defines a custom serialization method that will execute arbitrary code when an object of this class is deserialized using the `pickle.load()` method. This is achieved by returning a tuple with the `builtins.exec()` function as the first element and a string that contains the code to be executed as the second element.
 
