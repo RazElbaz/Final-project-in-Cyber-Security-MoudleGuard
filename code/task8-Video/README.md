@@ -20,6 +20,6 @@ The program runs cdr.py removes the malware, and shows the "clean" data that was
 Now you can load the pickle file in the protected way, and in the unprotected way -> in both ways the ransomware attack will not be activated.
 
 
-`attack_exe_file.zip` :  The compiled library-> you can download directly but be careful it contains malicious ♥ Download the folder to the VM
+`attack_exe_file.zip` :  The compiled library-> you can download directly but be careful it contains malicious 
 
 `pickleCDR.mp4` : Video of running jupyter notebook
