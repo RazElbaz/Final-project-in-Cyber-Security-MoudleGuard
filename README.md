@@ -1,7 +1,28 @@
 # Final-project-in-Cyber-Security-MoudleGuard
 # ModelGuard: Ransomware Protection Initiative
-### Raz Elbaz
-### Dr. Ran Dubin and Prof. Amit Dvir
+## written by ✨
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/RazElbaz"><img src="https://avatars.githubusercontent.com/u/93310416?v=4" width="100px;" alt="Raz Elbaz"/><br /><sub><b>Raz Elbaz</b></sub></a><br /><a href="https://github.com/RazElbaz" title="Code">💻</a> <br /> </td>
+  </tr>
+</table>
+## The instructors of the project
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/93310416?v=4" width="100px;" alt="Dr. Ran Dubin"/><b>Dr. Ran Dubin</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/RazElbaz"><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
+
+  </tr>
+</table>
+
 ## Project Goal:
 The goal of the project is to develop a comprehensive framework and implement advanced security measures to protect models from ransomware attacks, including those that hide in executable code or exploit vulnerabilities in metadata.
 
