@@ -1,7 +1,7 @@
 # Task 8
-There is an unreal ransomware scam written on dotnet
-https://github.com/araujo88/S4VEtheD4TE
-The goal is to create an exe and link it to the attack
+There is an unreal ransomware scam written on dotnet  
+https://github.com/araujo88/S4VEtheD4TE  
+The goal is to create an exe and link it to the attack  
 To activate:
 1. for the file: install .net core version 3.1 (exactly) and visual studio -2019
 2. create a folder "encryption_tests" ion drive c:\
