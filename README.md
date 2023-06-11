@@ -20,7 +20,7 @@
   <tr>
     <td align="center"><img src="https://www.ariel.ac.il/wp/ran-dubin/wp-content/uploads/sites/353/2022/07/randubin_profile-300x200.jpeg.webp" width="100px;"/><br /><sub><b>Dr. Ran Dubin</b></sub></a><br /> </td>
     <td align="center"><img src="https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg" width="115px;"/><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
-    <td align="center"><img src="https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg" width="100px;" /><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
+   
 
   </tr>
 </table>
