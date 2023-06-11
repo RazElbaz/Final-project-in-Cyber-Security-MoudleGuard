@@ -1,28 +1,4 @@
-# Final-project-in-Cyber-Security-MoudleGuard
-# ModelGuard: Ransomware Protection Initiative
-Raz Elbaz
-Dr. Ran Dubin and Prof. Amit Dvir
-Project Goal:
-The goal of the project is to develop a comprehensive framework and implement advanced security measures to protect models from ransomware attacks, including those that hide in executable code or exploit vulnerabilities in metadata.
-
-## Introduction:
-The ModelGuard: Ransomware Protection Initiative focuses on mitigating the growing threat of ransomware attacks targeting models. Our goal is to develop the ModelGuard framework, a comprehensive solution that safeguards models from malicious code and metadata-based attacks. Through this initiative, we aim to ensure the integrity and availability of models, protecting them from evolving ransomware threats.
-Methods/algorithms/Alternatives or Design Considerations:
-To achieve protection against ransomware attacks, our project focuses on the following approaches:
-1.	Vulnerability identification: Thoroughly research and identify potential vulnerabilities specific to the models, focusing on those exploitable in ransomware attacks.
-2.	Attack simulation: Simulate various attack scenarios to locate and identify vulnerabilities within the models effectively.
-3.	Cleanup mechanism: Develop a robust mechanism to remove the malicious code from infected models, ensuring that only the clean portion of the files remains intact while removing any malicious components.
-## Selected Approach:
-•	Use of secure serialization libraries to prevent code execution vulnerabilities.
-•	Implementing input sanitization and data validation techniques for maintaining data integrity.
-•	Promoting custom deserialization methods to mitigate the risk of arbitrary code execution.
-•	Applying input filtering and whitelisting mechanisms to reduce the likelihood of malicious data.
-•	Conducting regular security audits to identify and address vulnerabilities in serialization and deserialization processes.
-## Solution Description:
-The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
-
-
-## Pickle file  
+# Pickle file  
 <!-- Pickle File  
 +----------------+  
 |    Pickle Header       |  
