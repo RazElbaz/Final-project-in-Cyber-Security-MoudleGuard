@@ -18,7 +18,7 @@
 <table>
   <tr>
     <td align="center"><img src="(https://dir.co.il/wp-content/uploads/2023/02/DR_RAN_DUBIN_ORIG-1.jpg)" width="100px;" alt="Dr. Ran Dubin"/><b>Dr. Ran Dubin</b></sub></a><br /> </td>
-    <td align="center"><img src="(https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg)" width="100px;" alt="Prof. Amit Dvir"/><a href="https://github.com/RazElbaz"><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
+    <td align="center"><img src="(https://www.ariel.ac.il/Projects/tzmm/Uploads/TRPUserImages/3750b467b8674c08514c8bf14b93a93b.jpg)" width="100px;" alt="Prof. Amit Dvir"/><br /><sub><b>Prof. Amit Dvir</b></sub></a><br /> </td>
 
   </tr>
 </table>
