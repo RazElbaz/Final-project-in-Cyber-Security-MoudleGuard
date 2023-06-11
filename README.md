@@ -43,7 +43,8 @@ To achieve protection against ransomware attacks, our project focuses on the fol
 •	Conducting regular security audits to identify and address vulnerabilities in serialization and deserialization processes.
 ## Solution Description:
 The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
-
+## Poster
+![poster](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/poster.png.png)
 # Code: 
 The project includes several scripts:
 ## Task 1
