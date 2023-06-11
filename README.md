@@ -241,7 +241,7 @@ The third line of code imports a module named `module` and prints the string "ma
 The fourth line of code uses the `os.system()` method to execute the shell command "echo Malicious code!", which can be a serious security risk as it allows arbitrary code execution on the system. 
 When the pickled object is loaded and unpickled using the `pickle.load()` method, the malicious code will be executed, potentially causing serious harm to the system. Therefore, it is important to be careful when loading pickled objects from untrusted sources and to only load pickled objects that come from trusted sources.
 ## In general for all attacks:
-
+![cdr](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/cdr.png)
 ## malicious_exec
 This code shows an example of a subattack that exploits Python's pickle module to execute arbitrary code. The `ExecuteCode` class defines a custom serialization method that will execute arbitrary code when an object of this class is deserialized using the `pickle.load()` method. This is achieved by returning a tuple with the `builtins.exec()` function as the first element and a string that contains the code to be executed as the second element.
 
