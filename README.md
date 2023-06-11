@@ -68,35 +68,41 @@ In the folder attack_exe_file there is the compiled library-> you can download d
 ## Task 7
 Creating a jupyter that extracts features from pickle files and creates a prediction
 
+## Task 8
+There is an unreal ransomware scam written on dotnet  
+https://github.com/araujo88/S4VEtheD4TE  
+The goal is to create an exe and link it to the attack  
+To activate:
+1. for the file: install .net core version 3.1 (exactly) and visual studio -2019
+2. create a folder "encryption_tests" ion drive c:\
+add file you do not need - they will be encrypted
+
+The idea is to run the attack that will execute the exe file and once it will execute you will see a ransom note.
+
+In the folder attack_exe_file there is the compiled library-> you can download directly but be careful it contains malicious ♥ Download the folder to the VM
+
+
+`PickleCDR.ipynb`: Creating a model that contains an exe file that triggers a ransomware attack.
+Loading the model without a protected path and without the cdr.py written library led to an attack.
+The pickle file is then loaded in protected form -> using the directory ficking.pickle import Pickled
+It can be seen that the attack is not activated.
+The program runs cdr.py removes the malware, and shows the "clean" data that was in the file.
+Now you can load the pickle file in the protected way, and in the unprotected way -> in both ways the ransomware attack will not be activated.
+
+
+`attack_exe_file.zip` :  The compiled library-> you can download directly but be careful it contains malicious 
+
+`pickleCDR.mp4` : Video of running jupyter notebook
 
 ## Pickle file  
-<!-- Pickle File  
-+----------------+  
-|    Pickle Header       |  
-+----------------+  
-|      Pickled Data      |  
-+----------------+     -->
 
 The pickle module in Python provides functions for serializing and deserializing Python objects into a binary format. The module defines two main classes: Pickler and Unpickler, which are used to serialize and deserialize Python objects, respectively.
 
 The Pickler class is used to convert a Python object into a byte stream, while the Unpickler class is used to convert a byte stream back into a Python object.
 
-The pickle module also defines several functions for serializing and deserializing objects, including:
 
-- pickle.dump(obj, file, protocol=None, *, fix_imports=True)
-  - This function serializes the object 'obj' and writes it to the open file object 'file'. The 'protocol' argument is an optional integer that specifies the pickle protocol to use.
-
-- pickle.dumps(obj, protocol=None, *, fix_imports=True)
-  - This function serializes the object 'obj' and returns a bytes object containing the serialized data. The 'protocol' argument is an optional integer that specifies the pickle protocol to use.
-
-- pickle.load(file, *, fix_imports=True, encoding="ASCII", errors="strict")
-  - This function reads a pickled object from the open file object 'file' and returns the deserialized Python object.
-
-- pickle.loads(bytes_object, *, fix_imports=True, encoding="ASCII", errors="strict")
-  - This function deserializes a pickled object from the bytes object 'bytes_object' and returns the deserialized Python object.
-
-The pickle module uses a binary format to serialize Python objects, which consists of a series of bytes that represent the object in a compact and efficient way. The format includes a protocol version number, a serialized representation of the object's data, and a series of instructions that describe how to recreate the object. The format is designed to be flexible and extensible, and can handle a wide range of Python objects.  
 ## How to Run:
+Go to code/task5
 To call the code, you can run it from the command line using the following command:
 
 ```
