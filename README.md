@@ -21,6 +21,53 @@ To achieve protection against ransomware attacks, our project focuses on the fol
 ## Solution Description:
 The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
 
+# Code: 
+The project includes several scripts:
+## Task1: 
+Learn about a pickle file: what it is, how to attack it. Execute an attack - I implemented a malicious pickle creation, I implemented sender and receiver programs to implement an attack that activates a code that runs automatically on the receiver and performs an attack.
+
+The sender.py and receiverpy programs send a pickle file from the sender to the receiver, the receiver loads the information received from the sender and receives a list of passwords.
+
+In the program Pickle_Arbitrary_Code_Execution.py there is a display of information output (can also be applied in sending with socket) such as passwords from the computer, groups, hosts and PAM.
+
+In the program maliciousPickle.py there is a creation of a normal pickle file into which data was pushed and if we execute the following commands: cat payload.pkl, hexyl payload.pkl we can see the data that was pushed
+## Task2: 
+maliciousPickle.py
+Develop a code that statically reads the pickle file and scans the active parts in it.
+Task 3
+Removing malware from a pickle file
+MaliciousExtraction.py
+
+## Task 4
+The task is to modify the pickle package by removing parts that could be used for malicious attacks, add a new capability called cdr.py, and then test that this change works by running parse and cdr, and verifying that parse returns "clean" after cdr is called. I need to remove the parts that can cause an attack because a pickle has parts that make it explosive
+
+cdr.py
+test.py -This file is more pickle files - some are clean and some are malicious, the code will load the pickle file in a protected form, analyze it with fickling.analysis, if there is anything malicious in it, the code will run cdr.py which will remove the malware from it and return a clean file to the user.
+
+## Task 5
+1. Produce one file that accepts the type of attack and produces a suitable attacked pickle with. cmd. -> attack_cmd.py
+To run: python attack_cmd.py [attack_type]
+python attack_cmd.py -h -> to get help with attack_type arguments
+
+2. Produce one file that accepts the type of attack and produces a suitable attacked pickle with. cmd. and then removes with cdr the malicious part in the pickle file -> cdr_cmd.py
+To run: python cdr_cmd.py [attack_type]
+
+## Task 6
+There is an unreal ransomware scam written on dotnet
+https://github.com/araujo88/S4VEtheD4TE
+The goal is to create an exe and link it to the attack
+To activate:
+1. for the file: install .net core version 3.1 (exactly) and visual studio -2019
+2. create a folder "encryption_tests" ion drive c:\
+add file you do not need - they will be encrypted
+
+The idea is to run the attack that will execute the exe file and once it will execute you will see a ransom note.
+
+In the folder attack_exe_file there is the compiled library-> you can download directly but be careful it contains malicious ♥ Download the folder to the VM
+
+## Task 7
+Creating a jupyter that extracts features from pickle files and creates a prediction
+
 
 ## Pickle file  
 <!-- Pickle File  
