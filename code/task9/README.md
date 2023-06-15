@@ -1,0 +1,1 @@
+This code first trains the model, saves it as a pickle file, appends the exe file to the pickle file, and then loads the model from the updated pickle file. It performs predictions using the loaded model and fits the new model with the appended exe file.
