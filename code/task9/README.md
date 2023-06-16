@@ -59,3 +59,16 @@ PyTorch is primarily used for the following purposes:
 5. Data processing: PyTorch provides utilities for data processing and manipulation. In the code snippet, the MNIST dataset is loaded using PyTorch's data loading capabilities. Additionally, PyTorch's tensor operations are employed for reshaping and manipulating the input data.
 
 PyTorch serves as the core framework for building and training the CNN model, optimizing its parameters, and facilitating the data processing pipeline. Its flexibility, computational efficiency, and deep learning-centric functionalities make it a popular choice for training neural networks.
+
+## The MNIST dataset
+The MNIST dataset is a widely used dataset in the field of machine learning and computer vision. It consists of a large collection of handwritten digits (0-9) along with their corresponding labels. The MNIST dataset is commonly used as a benchmark for evaluating and testing machine learning models, particularly for image classification tasks.
+
+In the code of task 9, the setup of the MNIST dataset involves the following steps:
+
+1. Loading the dataset: The code loads the MNIST dataset from a compressed pickle file (`mnist.pkl.gz`). The pickle file contains preprocessed and split versions of the dataset, including the training and validation data.
+
+2. Assigning variables: The loaded dataset is assigned to variables such as `train_x`, `train_y`, `valid_x`, and `valid_y`. These variables hold the training and validation images (pixel values) and their corresponding labels.
+
+The training set is used to train the machine learning model, while the validation set is used to assess the model's performance and tune hyperparameters during training. The test set, which is not utilized in this code snippet, is typically reserved for evaluating the final model's performance on unseen data.
+
+By loading and setting up the MNIST dataset, the code prepares the necessary data for training and evaluating the CNN model on the task of classifying handwritten digits.
