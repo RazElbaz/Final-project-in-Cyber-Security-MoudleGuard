@@ -26,21 +26,32 @@
 </table>
 
 ## Project Goal:
-The goal of the project is to develop a comprehensive framework and implement advanced security measures to protect models from ransomware attacks, including those that hide in executable code or exploit vulnerabilities in metadata.
+The goal of the project is to develop a comprehensive framework and implement advanced security measures to protect machine learning models from ransomware attacks. The focus is on defending against attacks that hide in executable code or exploit vulnerabilities in metadata. The ModelGuard framework aims to ensure the integrity and availability of models, safeguarding them from evolving ransomware threats.
 
-## Introduction:
-The ModelGuard: Ransomware Protection Initiative focuses on mitigating the growing threat of ransomware attacks targeting models. Our goal is to develop the ModelGuard framework, a comprehensive solution that safeguards models from malicious code and metadata-based attacks. Through this initiative, we aim to ensure the integrity and availability of models, protecting them from evolving ransomware threats.
-Methods/algorithms/Alternatives or Design Considerations:
-To achieve protection against ransomware attacks, our project focuses on the following approaches:
-1.	Vulnerability identification: Thoroughly research and identify potential vulnerabilities specific to the models, focusing on those exploitable in ransomware attacks.
-2.	Attack simulation: Simulate various attack scenarios to locate and identify vulnerabilities within the models effectively.
-3.	Cleanup mechanism: Develop a robust mechanism to remove the malicious code from infected models, ensuring that only the clean portion of the files remains intact while removing any malicious components.
-## Selected Approach:
-•	Use of secure serialization libraries to prevent code execution vulnerabilities.
-•	Implementing input sanitization and data validation techniques for maintaining data integrity.
-•	Promoting custom deserialization methods to mitigate the risk of arbitrary code execution.
-•	Applying input filtering and whitelisting mechanisms to reduce the likelihood of malicious data.
-•	Conducting regular security audits to identify and address vulnerabilities in serialization and deserialization processes.
+## Introduction
+The ModelGuard: Ransomware Protection Initiative addresses the growing threat of ransomware attacks targeting machine learning models. This project aims to develop a solution that protects models from malicious code and metadata-based attacks. By implementing cutting-edge techniques and security measures, we aim to enhance the security posture of machine learning models.
+
+
+## Methods/Algorithms/Design Considerations
+To achieve protection against ransomware attacks, the project employs the following approaches:
+
+1. Vulnerability identification: Thorough research is conducted to identify potential vulnerabilities specific to models, with a focus on those exploitable in ransomware attacks.
+
+2. Attack simulation: Various attack scenarios are simulated to effectively locate and identify vulnerabilities within models.
+
+3. Cleanup mechanism: A robust mechanism is developed to remove malicious code from infected models, ensuring the integrity of the remaining clean components.
+
+4. Secure serialization: Secure serialization libraries are used to prevent code execution vulnerabilities.
+
+5. Input sanitization and data validation: Techniques such as input sanitization and data validation are implemented to maintain data integrity and prevent malicious inputs.
+
+6. Custom deserialization methods: Custom deserialization methods are promoted to mitigate the risk of arbitrary code execution during deserialization.
+
+7. Input filtering and whitelisting: Input filtering and whitelisting mechanisms are applied to reduce the likelihood of accepting malicious data.
+
+8. Regular security audits: Regular security audits are conducted to identify and address vulnerabilities in the serialization and deserialization processes.
+
+
 ## Solution Description:
 The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
 ## Poster
