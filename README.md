@@ -52,8 +52,47 @@ To achieve protection against ransomware attacks, the project employs the follow
 8. Regular security audits: Regular security audits are conducted to identify and address vulnerabilities in the serialization and deserialization processes.
 
 
-## Solution Description:
-The project aims to protect models from ransomware attacks through a comprehensive framework and advanced security measures. The solution includes algorithms for detecting and removing malicious code, as well as identifying and mitigating ransomware threats. It adopts modular design principles, leveraging established security patterns. The infrastructure ensures secure storage, retrieval, and execution of models. The user interface facilitates model loading, vulnerability scanning, and monitoring of security status. The key functionalities include secure model loading, vulnerability scanning, malicious code detection, ransomware detection, model cleaning, and real-time monitoring. Overall, the solution provides a secure environment for deploying and executing models, protecting against ransomware attacks that can exploit models capable of running hostile code or hiding in metadata.
+## Solution Description
+The project's solution is a comprehensive framework that incorporates advanced security measures to protect models from ransomware attacks. The key functionalities of the solution include:
+
+1. Secure model loading: Models are loaded in a secure manner to prevent the activation of any embedded malicious code.
+
+2. Vulnerability scanning: The solution includes algorithms for scanning models to identify potential vulnerabilities and assess their security status.
+
+3. Malicious code detection: The framework is equipped with techniques to detect and remove malicious code from models.
+
+4. Ransomware detection: The solution incorporates mechanisms to identify and mitigate ransomware threats targeting models.
+
+5. Model cleaning: A robust mechanism is implemented to remove malware from infected models, ensuring their integrity.
+
+6. Real-time monitoring: The solution provides real-time monitoring of the security status of models, alerting users to potential threats.
+
+The solution adopts modular design principles and leverages established security patterns. It ensures secure storage, retrieval, and execution of models, providing a secure environment for deploying and executing models.
+## Code Overview
+The code included in the project encompasses several scripts and functionalities:
+
+1. Task 1: Implements an attack scenario involving the creation and transmission of a malicious pickle file.
+
+2. Task 2: Develops a code that statically scans pickle files to identify active malicious parts.
+
+3. Task 3: Provides a mechanism to remove malware from a pickle file.
+
+4. Task 4: Modifies the pickle package to remove parts that could be used for malicious attacks and adds a new capability called cdr.py.
+
+5. Task 5: Produces files that accept the type of attack and generate a suitable attacked pickle file.
+
+6. Task 6: Demonstrates the integration of an unreal ransomware scam executable (S4VEtheD4TE.exe) with the project.
+
+7. Task 7: Creates a Jupyter notebook to extract features from pickle files and make predictions.
+
+8. Task 8: Extends the integration of the unreal ransomware scam executable with the project.
+
+9. Task 9: Trains a machine learning model using the MNIST dataset, saves it as a pickle file, adds the executable, and performs predictions. Then, removes the malicious part and continues training the model.
+
+## Getting Started
+To get started with the project, please follow the instructions provided in the respective task folders. Each task contains detailed information on how to execute the scripts and utilize the functionalities.
+
+
 ## Poster
 ![poster](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/images/poster.png.png)
 # Code: 
