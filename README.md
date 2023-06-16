@@ -93,6 +93,9 @@ The code included in the project encompasses several scripts and functionalities
 To get started with the project, please follow the instructions provided in the respective task folders. Each task contains detailed information on how to execute the scripts and utilize the functionalities.
 
 
+## Disclaimer
+♥ Please exercise caution when working with any potentially malicious files or executables included in this project. Always use a secure and isolated environment to prevent any unintended consequences.
+
 ## Poster
 ![poster](https://github.com/RazElbaz/Final-project-in-Cyber-Security-MoudleGuard/blob/main/images/poster.png.png)
 # Code: 
