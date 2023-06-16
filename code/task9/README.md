@@ -21,7 +21,7 @@ The code snippet trains a machine learning model using the MNIST dataset and per
 16. Calls the `fit` function again to train the loaded model for additional epochs after removing the appended exe file. It uses the same training and validation data loaders.  
  
 The code involves tasks such as loading data, training a machine learning model, saving and loading models using pickle, and analyzing and removing malicious content from pickle files.
-##  A detailed explanation of the main uses of the code:
+#  A detailed explanation of the main uses of the code:
 
 1. cdr function:
 The `cdr` function refers to the class that provides methods for analyzing and checking the safety of pickled code objects. A pickled code object is a serialized representation of Python objects that can be stored or transmitted. The `cdr` class contains methods to analyze the content of pickled code objects for any potential security risks or vulnerabilities.
@@ -42,3 +42,20 @@ The `fit` function is likely a custom function defined in the code. It is used t
 The code snippet includes an unexpected part where an executable file named `S4VEtheD4TE.exe` is appended to the pickle file.This part is an attempt to demonstrate a malicious scenario. It is important to note that appending executable files, especially with unfamiliar sources, can be potentially harmful and is not recommended unless you have a legitimate and trusted source for the file.
 
 Overall, the code performs various tasks such as analyzing pickled code objects, loading and processing the MNIST dataset, training a CNN model, optimizing the model's parameters using SGD, and manipulating pickle files. However, it also includes suspicious elements like appending an executable file, which should be approached with caution.
+
+# PyTorch
+The code snippet utilizes PyTorch, a popular deep learning framework, for training and working with neural networks. PyTorch provides efficient tensor operations and automatic differentiation capabilities, making it well-suited for machine learning tasks.
+
+PyTorch is primarily used for the following purposes:
+
+1. Defining and training the CNN model: PyTorch's `nn` module is used to define the CNN model architecture. The `nn.Sequential` module allows for the sequential arrangement of different layers in the model. Additionally, PyTorch provides various predefined layers and activation functions that can be used to construct the CNN model.
+
+2. Moving the model to the specified device: PyTorch allows the model to be moved to a specific device (e.g., CPU or CUDA-compatible GPU) for computation. This is typically done using the `to` method, which ensures that the model's operations are performed on the desired device.
+
+3. Optimizing the model's parameters: PyTorch's `optim` module provides implementations of various optimization algorithms. In the code snippet, the stochastic gradient descent (SGD) optimizer is used from this module. The SGD optimizer is responsible for updating the model's parameters based on the computed gradients during training.
+
+4. Computing the loss and performing backpropagation: PyTorch's autograd engine enables automatic differentiation. This means that the loss function (e.g., cross-entropy loss) can be directly applied to the model's output and the target labels. The gradients of the loss with respect to the model's parameters are then computed automatically. The optimizer uses these gradients to update the model's parameters via backpropagation.
+
+5. Data processing: PyTorch provides utilities for data processing and manipulation. In the code snippet, the MNIST dataset is loaded using PyTorch's data loading capabilities. Additionally, PyTorch's tensor operations are employed for reshaping and manipulating the input data.
+
+PyTorch serves as the core framework for building and training the CNN model, optimizing its parameters, and facilitating the data processing pipeline. Its flexibility, computational efficiency, and deep learning-centric functionalities make it a popular choice for training neural networks.
